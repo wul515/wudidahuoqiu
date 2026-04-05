@@ -5,170 +5,600 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>泾县旅游攻略</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f0f2f5;
             min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        .header {
+        /* 顶部横幅 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px 20px;
             text-align: center;
             color: white;
-            margin-bottom: 30px;
         }
+        .hero h1 { font-size: 26px; margin-bottom: 6px; text-shadow: 1px 1px 4px rgba(0,0,0,0.3); }
+        .hero p { font-size: 13px; opacity: 0.9; }
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .card {
+        /* 天气卡片 */
+        .weather-card {
+            margin: -20px 16px 0;
             background: white;
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        .weather-header {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            padding: 16px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .weather-title { font-size: 13px; opacity: 0.9; }
+        .weather-temp { font-size: 38px; font-weight: bold; line-height: 1; }
+        .weather-desc { font-size: 14px; margin-top: 4px; }
+        .weather-right { text-align: right; font-size: 12px; opacity: 0.9; line-height: 1.8; }
+        .weather-alert {
+            background: #fff3cd;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: #856404;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .weather-hourly {
+            padding: 12px 16px;
+            display: flex;
+            overflow-x: auto;
+            gap: 16px;
+            scrollbar-width: none;
+        }
+        .weather-hourly::-webkit-scrollbar { display: none; }
+        .hour-item {
+            text-align: center;
+            min-width: 44px;
+            font-size: 11px;
+            color: #555;
+        }
+        .hour-item .hour-time { color: #999; margin-bottom: 4px; }
+        .hour-item .hour-icon { font-size: 18px; margin: 4px 0; }
+        .hour-item .hour-temp { font-weight: 600; color: #333; }
+        /* 通用板块标题 */
+        .section-title {
+            padding: 20px 16px 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+            margin-left: 8px;
+        }
+
+        /* 标签切换 */
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            font-size: 13px;
+            border: none;
+            background: none;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 14px;
+            margin: 0 16px 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.98); }
+
+        /* 文章目录 */
+        .article-list { padding: 4px 0; }
+        .article-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 16px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .article-item:last-child { border-bottom: none; }
+        .article-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 12px;
+        }
+        .article-info { flex: 1; }
+        .article-name { font-size: 14px; color: #333; font-weight: 500; }
+        .article-source { font-size: 11px; color: #999; margin-top: 2px; }
+        .article-arrow { color: #ccc; font-size: 16px; }
+
+        /* 景点门票 */
+        .ticket-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px; }
+        .ticket-item {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e8ecff;
+        }
+        .ticket-icon { font-size: 24px; margin-bottom: 6px; }
+        .ticket-name { font-size: 12px; color: #555; margin-bottom: 6px; line-height: 1.3; }
+        .ticket-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        .ticket-price span { font-size: 11px; font-weight: normal; color: #999; }
+        .ticket-tip {
+            margin: 0 16px 12px;
+            background: #fff8e1;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #e65100;
+            line-height: 1.6;
+        }
+
+        /* 停车场 */
+        .parking-list { padding: 4px 0; }
+        .parking-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .parking-item:last-child { border-bottom: none; }
+        .parking-left .parking-name { font-size: 14px; color: #333; font-weight: 500; }
+        .parking-left .parking-addr { font-size: 11px; color: #999; margin-top: 2px; }
+        .parking-fee {
+            font-size: 13px;
+            color: #27ae60;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* 加油站 */
+        .gas-list { padding: 4px 0; }
+        .gas-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f5f5f5;
             cursor: pointer;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        .gas-item:last-child { border-bottom: none; }
+        .gas-top { display: flex; justify-content: space-between; align-items: center; }
+        .gas-name { font-size: 14px; color: #333; font-weight: 500; }
+        .gas-brand {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
         }
+        .brand-sinopec { background: #fff0f0; color: #e74c3c; }
+        .brand-petrochina { background: #fff8e1; color: #f39c12; }
+        .brand-other { background: #f0fff4; color: #27ae60; }
+        .gas-addr { font-size: 11px; color: #999; margin-top: 4px; }
+        .gas-price { font-size: 12px; color: #667eea; margin-top: 4px; }
 
-        .card:active {
-            transform: scale(0.98);
+        /* 非遗介绍 */
+        .heritage-list { padding: 8px 16px 12px; }
+        .heritage-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f5f5f5;
         }
-
-        .card-icon {
+        .heritage-item:last-child { border-bottom: none; }
+        .heritage-icon {
             width: 50px;
             height: 50px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 26px;
+            flex-shrink: 0;
         }
-
-        .card-title {
-            font-size: 16px;
+        .heritage-content .heritage-name {
+            font-size: 15px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 4px;
         }
-
-        .card-desc {
-            font-size: 13px;
-            color: #888;
-            line-height: 1.5;
-        }
-
-        .card-link {
+        .heritage-content .heritage-level {
             display: inline-block;
-            margin-top: 12px;
-            color: #667eea;
-            font-size: 13px;
-            text-decoration: none;
+            font-size: 10px;
+            padding: 1px 7px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .level-world { background: #fff3cd; color: #856404; }
+        .level-national { background: #e8f4fd; color: #0366d6; }
+        .level-provincial { background: #f0fff4; color: #2d6a4f; }
+        .heritage-content .heritage-desc {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
         }
 
-        .icon-scenery { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .icon-food { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .icon-culture { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .icon-note { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .icon-share { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        /* 旅游资源入口 */
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 0 16px;
+        }
+        .quick-link {
+            background: white;
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s;
+        }
+        .quick-link:active { transform: scale(0.97); }
+        .quick-link-icon { font-size: 28px; margin-bottom: 8px; }
+        .quick-link-name { font-size: 13px; font-weight: 600; color: #333; }
+        .quick-link-desc { font-size: 11px; color: #999; margin-top: 3px; }
 
+        /* 底部 */
         .footer {
             text-align: center;
-            color: white;
-            opacity: 0.8;
-            font-size: 12px;
-            margin-top: 30px;
+            color: #aaa;
+            font-size: 11px;
+            padding: 20px 16px 30px;
+            line-height: 1.8;
         }
 
-        .divider {
-            height: 1px;
-            background: #eee;
-            margin: 15px 0;
+        /* 更新时间标签 */
+        .update-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🏞️ 泾县旅游攻略</h1>
-            <p>发现泾县之美 • 收藏这份攻略</p>
-        </div>
 
-        <div class="card" onclick="openLink('https://wst.ahctic.cn/wst#/pages/search/list/index?keyword=%E6%B3%BE%E5%8E%BF')">
-            <div class="card-icon icon-scenery">🗺️</div>
-            <div class="card-title">泾县景点搜索</div>
-            <div class="card-desc">搜索泾县热门景点，发现更多好玩的地方</div>
-            <div class="divider"></div>
-            <a class="card-link" onclick="event.stopPropagation()">wst.ahctic.cn →</a>
-        </div>
+    <!-- 顶部标题 -->
+    <div class="hero">
+        <h1>🏞️ 泾县旅游攻略</h1>
+        <p>发现泾县之美 · 清明假期专版</p>
+    </div>
 
-        <div class="card" onclick="openLink('https://wst.ahctic.cn/wst#/pages/line/detail/index?id=753')">
-            <div class="card-icon icon-food">🛤️</div>
-            <div class="card-title">泾县旅游线路详情</div>
-            <div class="card-desc">查看详细旅游路线规划，行程安排一目了然</div>
-            <div class="divider"></div>
-            <a class="card-link" onclick="event.stopPropagation()">wst.ahctic.cn →</a>
+    <!-- ① 天气预报 -->
+    <div class="weather-card">
+        <div class="weather-header">
+            <div>
+                <div class="weather-title">📍 安徽·泾县 今日天气</div>
+                <div class="weather-temp">24℃</div>
+                <div class="weather-desc">☁️ 阴天 · 空气优良</div>
+            </div>
+            <div class="weather-right">
+                <div>🌡️ 11~28℃</div>
+                <div>💧 湿度 36%</div>
+                <div>🍃 南风 1级</div>
+                <div>🌅 05:50 / 18:27</div>
+            </div>
         </div>
-
-        <div class="card" onclick="openLink('https://mp.weixin.qq.com/s/LDFegB9lJO9RuUFIlkUV-Q')">
-            <div class="card-icon icon-culture">📖</div>
-            <div class="card-title">泾县旅游推荐文章（一）</div>
-            <div class="card-desc">微信精选文章，带你深入了解泾县人文风光</div>
-            <div class="divider"></div>
-            <a class="card-link" onclick="event.stopPropagation()">mp.weixin.qq.com →</a>
+        <div class="weather-alert">
+            ⚠️ <strong>夜间提示：</strong>今晚0点-1点有小雨，出行请备雨具
         </div>
-
-        <div class="card" onclick="openLink('https://mp.weixin.qq.com/s/3NMV87CFsTE8qyvd1wApqA')">
-            <div class="card-icon icon-note">📝</div>
-            <div class="card-title">泾县旅游推荐文章（二）</div>
-            <div class="card-desc">更多精彩内容，发现泾县不为人知的美</div>
-            <div class="divider"></div>
-            <a class="card-link" onclick="event.stopPropagation()">mp.weixin.qq.com →</a>
-        </div>
-
-        <div class="card" onclick="openLink('https://mp.weixin.qq.com/s/U2CqDlgmhQlRznQCLPUCIw')">
-            <div class="card-icon icon-share">🔖</div>
-            <div class="card-title">泾县旅游推荐文章（三）</div>
-            <div class="card-desc">实用旅行指南，玩转泾县必备收藏</div>
-            <div class="divider"></div>
-            <a class="card-link" onclick="event.stopPropagation()">mp.weixin.qq.com →</a>
-        </div>
-
-        <div class="footer">
-            <p>📍 长按或点击卡片即可打开链接</p>
-            <p style="margin-top: 5px;">数据来源：泾县文化和旅游局</p>
+        <div class="weather-hourly">
+            <div class="hour-item"><div class="hour-time">18时</div><div class="hour-icon">☁️</div><div class="hour-temp">24°</div></div>
+            <div class="hour-item"><div class="hour-time">19时</div><div class="hour-icon">☁️</div><div class="hour-temp">22°</div></div>
+            <div class="hour-item"><div class="hour-time">20时</div><div class="hour-icon">☁️</div><div class="hour-temp">21°</div></div>
+            <div class="hour-item"><div class="hour-time">21时</div><div class="hour-icon">☁️</div><div class="hour-temp">20°</div></div>
+            <div class="hour-item"><div class="hour-time">22时</div><div class="hour-icon">☁️</div><div class="hour-temp">19°</div></div>
+            <div class="hour-item"><div class="hour-time">23时</div><div class="hour-icon">☁️</div><div class="hour-temp">18°</div></div>
+            <div class="hour-item"><div class="hour-time">00时</div><div class="hour-icon">🌧️</div><div class="hour-temp">18°</div></div>
+            <div class="hour-item"><div class="hour-time">01时</div><div class="hour-icon">🌧️</div><div class="hour-temp">17°</div></div>
+            <div class="hour-item"><div class="hour-time">02时</div><div class="hour-icon">☁️</div><div class="hour-temp">17°</div></div>
+            <div class="hour-item"><div class="hour-time">06时</div><div class="hour-icon">☁️</div><div class="hour-temp">17°</div></div>
+            <div class="hour-item"><div class="hour-time">09时</div><div class="hour-icon">☁️</div><div class="hour-temp">22°</div></div>
+            <div class="hour-item"><div class="hour-time">12时</div><div class="hour-icon">☁️</div><div class="hour-temp">26°</div></div>
+            <div class="hour-item"><div class="hour-time">15时</div><div class="hour-icon">☁️</div><div class="hour-temp">27°</div></div>
         </div>
     </div>
 
+    <!-- ② 快捷入口 -->
+    <div class="section-title">🗺️ 旅游资源入口</div>
+    <div class="quick-links">
+        <a class="quick-link" href="https://wst.ahctic.cn/wst#/pages/search/list/index?keyword=%E6%B3%BE%E5%8E%BF" onclick="openLink(this.href);return false;">
+            <div class="quick-link-icon">🔍</div>
+            <div class="quick-link-name">景点搜索</div>
+            <div class="quick-link-desc">搜索泾县所有景点</div>
+        </a>
+        <a class="quick-link" href="https://wst.ahctic.cn/wst#/pages/line/detail/index?id=753" onclick="openLink(this.href);return false;">
+            <div class="quick-link-icon">🛤️</div>
+            <div class="quick-link-name">旅游线路</div>
+            <div class="quick-link-desc">官方推荐行程</div>
+        </a>
+    </div>
+
+    <!-- ③ 精选文章目录 -->
+    <div class="section-title">📚 泾县旅游精选文章 <span class="update-badge">3篇推荐</span></div>
+    <div class="card">
+        <div class="article-list">
+            <a class="article-item" href="https://mp.weixin.qq.com/s/LDFegB9lJO9RuUFIlkUV-Q" onclick="openLink(this.href);return false;">
+                <div class="article-num">1</div>
+                <div class="article-info">
+                    <div class="article-name">泾县旅游推荐（一）人文风光篇</div>
+                    <div class="article-source">微信公众号 · 带你深入了解泾县人文</div>
+                </div>
+                <div class="article-arrow">›</div>
+            </a>
+            <a class="article-item" href="https://mp.weixin.qq.com/s/3NMV87CFsTE8qyvd1wApqA" onclick="openLink(this.href);return false;">
+                <div class="article-num">2</div>
+                <div class="article-info">
+                    <div class="article-name">泾县旅游推荐（二）隐秘之美篇</div>
+                    <div class="article-source">微信公众号 · 发现泾县不为人知的美</div>
+                </div>
+                <div class="article-arrow">›</div>
+            </a>
+            <a class="article-item" href="https://mp.weixin.qq.com/s/U2CqDlgmhQlRznQCLPUCIw" onclick="openLink(this.href);return false;">
+                <div class="article-num">3</div>
+                <div class="article-info">
+                    <div class="article-name">泾县旅游推荐（三）实用指南篇</div>
+                    <div class="article-source">微信公众号 · 玩转泾县必备收藏</div>
+                </div>
+                <div class="article-arrow">›</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ④ 出行服务（景区+停车+加油） -->
+    <div class="section-title">🚗 出行服务</div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this, 'tab-ticket')">🎟️ 景区门票</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-parking')">🅿️ 停车场</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-gas')">⛽ 加油站</button>
+        </div>
+
+        <div id="tab-ticket" class="tab-content active">
+            <div class="ticket-grid" style="padding:12px;">
+                <div class="ticket-item">
+                    <div class="ticket-icon">🌊</div>
+                    <div class="ticket-name">桃花潭风景区</div>
+                    <div class="ticket-price">65<span>元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <div class="ticket-icon">🏘️</div>
+                    <div class="ticket-name">查济古村</div>
+                    <div class="ticket-price">65<span>元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <div class="ticket-icon">📜</div>
+                    <div class="ticket-name">宣纸文化园</div>
+                    <div class="ticket-price">45<span>元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <div class="ticket-icon">🌿</div>
+                    <div class="ticket-name">水墨汀溪</div>
+                    <div class="ticket-price">60<span>元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <div class="ticket-icon">🌙</div>
+                    <div class="ticket-name">月亮湾</div>
+                    <div class="ticket-price">免费<span></span></div>
+                </div>
+                <div class="ticket-item">
+                    <div class="ticket-icon">🛣️</div>
+                    <div class="ticket-name">皖南川藏线</div>
+                    <div class="ticket-price">免费<span></span></div>
+                </div>
+            </div>
+            <div class="ticket-tip" style="margin:0 12px 12px;">
+                💡 <strong>优惠：</strong>60岁以上老人、军人、残疾人凭证免票；学生半价。早7点前/晚5点后部分景区可能免票，以景区官方为准。
+            </div>
+        </div>
+
+        <div id="tab-parking" class="tab-content">
+            <div class="parking-list">
+                <div class="parking-item">
+                    <div class="parking-left">
+                        <div class="parking-name">桃花潭景区停车场</div>
+                        <div class="parking-addr">泾县桃花潭镇景区入口旁</div>
+                    </div>
+                    <div class="parking-fee">5元/次</div>
+                </div>
+                <div class="parking-item">
+                    <div class="parking-left">
+                        <div class="parking-name">查济古村停车场</div>
+                        <div class="parking-addr">泾县蔡村镇查济村入口</div>
+                    </div>
+                    <div class="parking-fee">5元/次</div>
+                </div>
+                <div class="parking-item">
+                    <div class="parking-left">
+                        <div class="parking-name">宣纸文化园停车场</div>
+                        <div class="parking-addr">泾县榔桥镇宣纸文化园</div>
+                    </div>
+                    <div class="parking-fee">免费</div>
+                </div>
+                <div class="parking-item">
+                    <div class="parking-left">
+                        <div class="parking-name">水墨汀溪停车场</div>
+                        <div class="parking-addr">泾县蔡村镇汀溪景区</div>
+                    </div>
+                    <div class="parking-fee">10元/次</div>
+                </div>
+                <div class="parking-item">
+                    <div class="parking-left">
+                        <div class="parking-name">月亮湾观景台停车</div>
+                        <div class="parking-addr">皖南川藏线沿线</div>
+                    </div>
+                    <div class="parking-fee">免费</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-gas" class="tab-content">
+            <div class="gas-list">
+                <div class="gas-item" onclick="openMap('泾县中石化加油站')">
+                    <div class="gas-top">
+                        <div class="gas-name">中石化泾县加油站</div>
+                        <div class="gas-brand brand-sinopec">中石化</div>
+                    </div>
+                    <div class="gas-addr">📍 泾县徽杭路（泾县收费站附近）</div>
+                    <div class="gas-price">92#约7.5元/升 · 95#约7.8元/升（参考价）</div>
+                </div>
+                <div class="gas-item" onclick="openMap('泾县中石油加油站')">
+                    <div class="gas-top">
+                        <div class="gas-name">中石油泾县加油站</div>
+                        <div class="gas-brand brand-petrochina">中石油</div>
+                    </div>
+                    <div class="gas-addr">📍 泾县城关镇解放路</div>
+                    <div class="gas-price">92#约7.5元/升 · 95#约7.8元/升（参考价）</div>
+                </div>
+                <div class="gas-item" onclick="openMap('桃花潭镇加油站')">
+                    <div class="gas-top">
+                        <div class="gas-name">桃花潭镇加油站</div>
+                        <div class="gas-brand brand-other">社会站</div>
+                    </div>
+                    <div class="gas-addr">📍 桃花潭镇主干道旁（游客集中区）</div>
+                    <div class="gas-price">建议在高速出口前加满油，山区站点价格略高</div>
+                </div>
+                <div class="gas-item" onclick="openMap('宣广高速泾县服务区')">
+                    <div class="gas-top">
+                        <div class="gas-name">宣广高速·泾县服务区</div>
+                        <div class="gas-brand brand-sinopec">中石化</div>
+                    </div>
+                    <div class="gas-addr">📍 宣广高速泾县段服务区内</div>
+                    <div class="gas-price">高速服务区加油，价格略高于县城</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ⑥ 泾县非遗 -->
+    <div class="section-title">🏺 泾县非物质文化遗产</div>
+    <div class="card">
+        <div class="heritage-list">
+            <div class="heritage-item">
+                <div class="heritage-icon" style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">📜</div>
+                <div class="heritage-content">
+                    <div class="heritage-name">宣纸制作技艺</div>
+                    <span class="heritage-level level-world">🌍 联合国人类非遗</span>
+                    <div class="heritage-desc">宣纸产于安徽泾县，始于唐代，有"纸中之王"美称。制作需经100余道工序，原料为青檀皮与沙田稻草。2009年被列入联合国教科文组织人类非物质文化遗产名录，是安徽省唯一独立申报的人类非遗。</div>
+                </div>
+            </div>
+            <div class="heritage-item">
+                <div class="heritage-icon" style="background: linear-gradient(135deg, #a8e6cf, #56ab91);">🖌️</div>
+                <div class="heritage-content">
+                    <div class="heritage-name">宣笔制作技艺</div>
+                    <span class="heritage-level level-national">🇨🇳 国家级非遗</span>
+                    <div class="heritage-desc">宣笔与宣纸并称"文房双绝"，产于泾县，历史可追溯至秦朝。采用山兔毫、山羊毛等天然材料，制作工艺繁复，有"宣笔甲天下"之誉，是中国四大名笔之一。</div>
+                </div>
+            </div>
+            <div class="heritage-item">
+                <div class="heritage-icon" style="background: linear-gradient(135deg, #fd79a8, #e84393);">✂️</div>
+                <div class="heritage-content">
+                    <div class="heritage-name">后山剪刀制作技艺</div>
+                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
+                    <div class="heritage-desc">泾县后山剪刀已有数百年历史，以手工锻造为主，刃口锋利、经久耐用。2014年入选安徽省第四批省级非物质文化遗产代表性项目名录。</div>
+                </div>
+            </div>
+            <div class="heritage-item">
+                <div class="heritage-icon" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">🎋</div>
+                <div class="heritage-content">
+                    <div class="heritage-name">宣纸帘制作技艺</div>
+                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
+                    <div class="heritage-desc">宣纸帘是制作宣纸不可缺少的工具，采用泾县特产苦竹丝手工编织，工艺精细，一张帘子需要数日完成，是宣纸制作产业链中的重要组成部分。</div>
+                </div>
+            </div>
+            <div class="heritage-item">
+                <div class="heritage-icon" style="background: linear-gradient(135deg, #55efc4, #00b894);">🥢</div>
+                <div class="heritage-content">
+                    <div class="heritage-name">泾县茂林抬阁</div>
+                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
+                    <div class="heritage-desc">茂林抬阁是泾县茂林镇传统民俗表演艺术，每逢重大节日举行，演员装扮成戏曲人物被固定于高架之上，颇为壮观，体现了皖南地区独特的民间文化传承。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer">
+        <p>📅 数据更新：2026年4月5日</p>
+        <p>⚠️ 门票及油价仅供参考，以实际为准</p>
+        <p style="margin-top:6px;">数据来源：中国气象局 · 泾县文化和旅游局</p>
+    </div>
+
     <script>
+        function switchTab(btn, tabId) {
+            // 切换标签
+            document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+            document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
         function openLink(url) {
             window.location.href = url;
+        }
+        function openMap(keyword) {
+            // 尝试打开地图导航
+            var ua = navigator.userAgent;
+            if (/MicroMessenger/i.test(ua)) {
+                // 微信内打开腾讯地图
+                window.location.href = 'https://map.qq.com/m?key=' + encodeURIComponent(keyword);
+            } else {
+                window.open('https://map.baidu.com/search/' + encodeURIComponent(keyword));
+            }
         }
     </script>
 </body>
