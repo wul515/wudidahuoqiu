@@ -124,6 +124,132 @@
         }
         .card:active { transform: scale(0.98); }
 
+        /* 旅游攻略卡片 */
+        .guide-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .guide-tabs::-webkit-scrollbar { display: none; }
+        .guide-tab {
+            flex-shrink: 0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1.5px solid #ddd;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .guide-tab.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        .guide-panel { display: none; padding: 12px 16px; }
+        .guide-panel.active { display: block; }
+        .route-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .route-card:last-child { margin-bottom: 0; }
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .route-title { font-size: 14px; font-weight: 700; color: #333; }
+        .route-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+        }
+        .route-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .route-step {
+            font-size: 12px;
+            color: #555;
+            background: white;
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid #e0e2f0;
+        }
+        .route-step::before { content: '→ '; color: #667eea; }
+        .route-step:first-child::before { content: ''; }
+        .route-tip {
+            font-size: 11px;
+            color: #888;
+            line-height: 1.6;
+        }
+        .guide-link-btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+        .sight-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .sight-card:last-child { border-bottom: none; }
+        .sight-icon { font-size: 30px; flex-shrink: 0; }
+        .sight-name { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 4px; }
+        .sight-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 5px; }
+        .sight-tag {
+            font-size: 11px;
+            padding: 1px 7px;
+            border-radius: 6px;
+            background: #eef0ff;
+            color: #667eea;
+        }
+        .sight-desc { font-size: 12px; color: #666; line-height: 1.6; }
+        .platform-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 4px 0 8px;
+        }
+        .platform-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+        }
+        .platform-btn.official { background:#fff3cd; color:#856404; border-color:#ffc107; }
+        .platform-btn.mafengwo { background:#fff0f0; color:#e44c2a; border-color:#e44c2a; }
+        .platform-btn.ctrip    { background:#e8f4ff; color:#007bff; border-color:#007bff; }
+        .platform-btn.dianping { background:#fff0e0; color:#ff6900; border-color:#ff6900; }
+
         /* 文章目录 */
         .article-list { padding: 4px 0; }
         .article-item {
@@ -569,6 +695,153 @@
         </div>
     </div>
 
+    <!-- ⑦ 旅游攻略 -->
+    <div class="section-title">🧭 旅游攻略 <span class="update-badge">精选推荐</span></div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <!-- 攻略内容标签切换 -->
+        <div class="guide-tabs">
+            <button class="guide-tab active" onclick="switchGuide(this,'guide-route')">🗺️ 推荐路线</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-sight')">🏞️ 景点速览</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-tips')">💡 实用贴士</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-platform')">🔗 更多攻略</button>
+        </div>
+
+        <!-- 推荐路线 -->
+        <div id="guide-route" class="guide-panel active">
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-title">🚗 3天2夜深度自驾游</div>
+                    <div class="route-badge">推荐</div>
+                </div>
+                <div class="route-steps">
+                    <div class="route-step">桃花潭</div>
+                    <div class="route-step">查济古村</div>
+                    <div class="route-step">皖南川藏线</div>
+                    <div class="route-step">水墨汀溪</div>
+                    <div class="route-step">宣纸文化园</div>
+                </div>
+                <div class="route-tip">D1：桃花潭-李白古渡口-踏歌岸阁 / D2：查济古村-皖南川藏线（小九华→蔡村→茂林）/ D3：水墨汀溪-宣纸文化园体验捞纸</div>
+            </div>
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-title">📅 2天1夜周末游</div>
+                    <div class="route-badge" style="background:#00b894;">轻松</div>
+                </div>
+                <div class="route-steps">
+                    <div class="route-step">查济古村</div>
+                    <div class="route-step">桃花潭</div>
+                    <div class="route-step">宣纸小镇</div>
+                </div>
+                <div class="route-tip">D1：上午查济-中午农家乐-下午桃花潭游船 / D2：宣纸小镇+非遗体验，下午返程</div>
+            </div>
+            <div class="route-card" style="border-left-color:#e17055;">
+                <div class="route-header">
+                    <div class="route-title">🎒 1日精华打卡</div>
+                    <div class="route-badge" style="background:#e17055;">省时</div>
+                </div>
+                <div class="route-steps">
+                    <div class="route-step">桃花潭</div>
+                    <div class="route-step">月亮湾</div>
+                    <div class="route-step">新四军旧址</div>
+                </div>
+                <div class="route-tip">适合从南京/杭州/合肥出发的一日游，建议早8点出发，晚9点前返回</div>
+            </div>
+            <div class="route-card" style="border-left-color:#a29bfe;">
+                <div class="route-header">
+                    <div class="route-title">🎨 跟着非遗游泾县</div>
+                    <div class="route-badge" style="background:#a29bfe;">特色</div>
+                </div>
+                <div class="route-steps">
+                    <div class="route-step">宣纸文化园</div>
+                    <div class="route-step">中国宣笔博物馆</div>
+                    <div class="route-step">查济古村</div>
+                    <div class="route-step">茂林抬阁</div>
+                </div>
+                <div class="route-tip">深度体验泾县非物质文化遗产，亲手造一张宣纸带回家，推荐2天行程</div>
+            </div>
+        </div>
+
+        <!-- 景点速览 -->
+        <div id="guide-sight" class="guide-panel">
+            <div class="sight-card">
+                <div class="sight-icon">🌊</div>
+                <div>
+                    <div class="sight-name">桃花潭风景区</div>
+                    <div class="sight-tags"><span class="sight-tag">4A景区</span><span class="sight-tag">李白圣地</span><span class="sight-tag">必去</span></div>
+                    <div class="sight-desc">李白"桃花潭水深千尺，不及汪伦送我情"的吟咏之地。古渡口、踏歌岸阁、万村老街一步一景，旁边有古色古香的泾川老街。门票65元，游船另计。</div>
+                </div>
+            </div>
+            <div class="sight-card">
+                <div class="sight-icon">🏘️</div>
+                <div>
+                    <div class="sight-name">查济古村</div>
+                    <div class="sight-tags"><span class="sight-tag">千年古村</span><span class="sight-tag">写生圣地</span><span class="sight-tag">摄影</span></div>
+                    <div class="sight-desc">中国现存规模最大的古民居群之一，始建于隋唐，现存明清古建筑100余幢。青石板、白墙黛瓦、古桥流水，被称为"中国第一画村"，每年吸引大量美院学生写生。门票65元。</div>
+                </div>
+            </div>
+            <div class="sight-card">
+                <div class="sight-icon">🏔️</div>
+                <div>
+                    <div class="sight-name">皖南川藏线</div>
+                    <div class="sight-tags"><span class="sight-tag">自驾天堂</span><span class="sight-tag">网红公路</span><span class="sight-tag">免费</span></div>
+                    <div class="sight-desc">全程约120公里，穿越泾县、旌德、宁国，山路十八弯、茶园梯田、云海松涛，媲美川藏线的险峻之美。骑行、摩托、自驾均宜，免费通行，建议避开节假日高峰。</div>
+                </div>
+            </div>
+            <div class="sight-card">
+                <div class="sight-icon">💧</div>
+                <div>
+                    <div class="sight-name">水墨汀溪</div>
+                    <div class="sight-tags"><span class="sight-tag">亲水乐园</span><span class="sight-tag">漂流</span><span class="sight-tag">避暑</span></div>
+                    <div class="sight-desc">皖南最美溪流之一，溪水清澈见底，可漂流、戏水、垂钓。夏天避暑胜地，两岸竹林葱郁，配套有农家乐和民宿。门票60元，漂流另计。</div>
+                </div>
+            </div>
+            <div class="sight-card">
+                <div class="sight-icon">📜</div>
+                <div>
+                    <div class="sight-name">宣纸文化园</div>
+                    <div class="sight-tags"><span class="sight-tag">非遗体验</span><span class="sight-tag">研学游</span><span class="sight-tag">联合国人类非遗</span></div>
+                    <div class="sight-desc">探访联合国教科文组织认定的人类非遗——宣纸制作技艺。园内可参观100余道工序，亲手体验捞纸，购买正宗泾县宣纸。门票45元，含导览讲解。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 实用贴士 -->
+        <div id="guide-tips" class="guide-panel">
+            <div class="route-card" style="border-left-color:#00b894;">
+                <div class="route-title" style="margin-bottom:8px;">🚗 交通</div>
+                <div class="route-tip">• 自驾最佳，停车位充足<br>• 高铁：最近是宣城站（约40分钟车程）<br>• 从南京2.5h / 杭州2.5h / 合肥2h / 上海3.5h<br>• 景区间距离较远，建议租车或自驾</div>
+            </div>
+            <div class="route-card" style="border-left-color:#fdcb6e;">
+                <div class="route-title" style="margin-bottom:8px;">🏨 住宿</div>
+                <div class="route-tip">• 桃花潭镇有大量民宿，环境好、性价比高<br>• 查济古村内有民宿，体验古村夜晚氛围<br>• 县城酒店选择多，交通方便<br>• 节假日提前1-2周预订</div>
+            </div>
+            <div class="route-card" style="border-left-color:#e17055;">
+                <div class="route-title" style="margin-bottom:8px;">🍜 美食</div>
+                <div class="route-tip">• 泾县小炒：酸辣口味，农家风格<br>• 三溪羊糕：泾县特色名菜<br>• 宣城绿茶：当地茶园新鲜出品<br>• 桃花潭老街小吃：米饼、糯米糍</div>
+            </div>
+            <div class="route-card" style="border-left-color:#a29bfe;">
+                <div class="route-title" style="margin-bottom:8px;">📅 最佳时节</div>
+                <div class="route-tip">• <strong>春（3-5月）</strong>：桃花潭百花盛开，最美<br>• <strong>秋（9-11月）</strong>：皖南川藏线彩林，绝景<br>• <strong>夏（6-8月）</strong>：水墨汀溪漂流、避暑<br>• 冬季人少清净，适合摄影爱好者</div>
+            </div>
+        </div>
+
+        <!-- 平台攻略链接 -->
+        <div id="guide-platform" class="guide-panel">
+            <div style="font-size:13px;color:#666;margin-bottom:12px;">以下是各大平台的泾县旅游攻略，内容更丰富详细，点击跳转查看：</div>
+            <div class="platform-links">
+                <a class="platform-btn official" href="https://www.ahjx.gov.cn/News/showList/45493/page_1.html" onclick="openLink(this.href);return false;">🏛️ 泾县官方攻略</a>
+                <a class="platform-btn mafengwo" href="https://www.mafengwo.cn/travel-scenic-spot/mafengwo/23042.html" onclick="openLink(this.href);return false;">🦅 马蜂窝游记</a>
+                <a class="platform-btn ctrip" href="https://you.ctrip.com/sight/jingxian2616.html" onclick="openLink(this.href);return false;">✈️ 携程景点</a>
+                <a class="platform-btn dianping" href="https://www.dianping.com/shop/H1kNUdj3AOhHYjqw" onclick="openLink(this.href);return false;">🍊 大众点评</a>
+            </div>
+            <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-top:8px;font-size:12px;color:#555;line-height:1.8;">
+                <strong>📱 小红书攻略搜索建议：</strong><br>
+                搜索「泾县」「皖南川藏线」「查济古村」「桃花潭攻略」可找到大量2024-2026年最新游记和Vlog，图文并茂更直观。
+            </div>
+            <a class="guide-link-btn" href="https://www.xiaohongshu.com/search_result?keyword=%E6%B3%BE%E5%8E%BF&type=51" onclick="openLink(this.href);return false;">📕 小红书搜索「泾县」攻略</a>
+        </div>
+    </div>
+
     <!-- 底部 -->
     <div class="footer">
         <p>📅 数据更新：2026年5月3日</p>
@@ -577,6 +850,12 @@
     </div>
 
     <script>
+        function switchGuide(btn, panelId) {
+            document.querySelectorAll('.guide-tab').forEach(function(b){ b.classList.remove('active'); });
+            document.querySelectorAll('.guide-panel').forEach(function(p){ p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById(panelId).classList.add('active');
+        }
         function switchTab(btn, tabId) {
             // 切换标签
             document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
