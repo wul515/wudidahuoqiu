@@ -4,742 +4,507 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>泾县旅游攻略</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='12' fill='%23b0432f'/%3E%3Ctext x='32' y='45' font-size='34' font-family='serif' font-weight='bold' fill='%23fffdf7' text-anchor='middle'%3E%E6%B3%BE%3C/text%3E%3C/svg%3E">
     <style>
+        :root {
+            --paper: #f4efe4;        /* 宣纸底 */
+            --card: #fffdf7;
+            --ink: #33302a;          /* 墨色 */
+            --ink-light: #6b655a;
+            --muted: #98917f;
+            --dark: #3f5a52;         /* 黛青 */
+            --dark-deep: #31463f;
+            --seal: #b0432f;         /* 朱砂 */
+            --line: #e3dcc9;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f0f2f5;
+            background: #d8d2c2;
+            color: var(--ink);
             min-height: 100vh;
         }
+        .page { max-width: 540px; margin: 0 auto; background: var(--paper); min-height: 100vh; box-shadow: 0 0 24px rgba(0,0,0,.12); }
 
-        /* 顶部横幅 */
+        .serif { font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif; }
+
+        svg.ic { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.12em; }
+
+        /* ===== 顶部 ===== */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px 20px 20px;
-            text-align: center;
-            color: white;
+            background: linear-gradient(160deg, #31463f 0%, #3f5a52 62%, #4a6a5f 100%);
+            padding: 34px 22px 58px;
+            color: #f6f2e8;
+            position: relative;
+            overflow: hidden;
         }
-        .hero h1 { font-size: 26px; margin-bottom: 6px; text-shadow: 1px 1px 4px rgba(0,0,0,0.3); }
-        .hero p { font-size: 13px; opacity: 0.9; }
+        .hero-mtn { position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 80px; }
+        .hero-top { display: flex; align-items: center; gap: 13px; position: relative; }
+        .seal {
+            width: 46px; height: 46px; flex-shrink: 0;
+            background: var(--seal);
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+            font-size: 27px; font-weight: 700; color: #fffdf7;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }
+        .seal::after { content: ''; position: absolute; inset: 3px; border: 1px solid rgba(255,253,247,.55); border-radius: 6px; }
+        .hero h1 { font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif; font-size: 25px; font-weight: 700; letter-spacing: 2px; }
+        .hero-sub { font-size: 12px; opacity: .78; margin-top: 5px; letter-spacing: 3px; }
+        .hero-tagline { position: relative; margin-top: 16px; font-size: 12.5px; opacity: .82; line-height: 1.9; letter-spacing: .5px; }
 
-        /* 天气卡片 */
+        /* ===== 天气 ===== */
         .weather-card {
-            margin: -20px 16px 0;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            margin: -38px 14px 0;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(51,48,42,.10);
             overflow: hidden;
             position: relative;
             z-index: 10;
         }
         .weather-header {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            padding: 16px;
-            color: white;
+            background: var(--dark);
+            padding: 15px 16px;
+            color: #f6f2e8;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .weather-title { font-size: 13px; opacity: 0.9; }
-        .weather-temp { font-size: 38px; font-weight: bold; line-height: 1; }
-        .weather-desc { font-size: 14px; margin-top: 4px; }
-        .weather-right { text-align: right; font-size: 12px; opacity: 0.9; line-height: 1.8; }
+        .weather-title { font-size: 12px; opacity: .82; letter-spacing: 1px; }
+        .weather-temp { font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif; font-size: 36px; font-weight: bold; line-height: 1.15; }
+        .weather-desc { font-size: 13px; margin-top: 2px; opacity: .92; }
+        .weather-right { text-align: right; font-size: 12px; opacity: .9; line-height: 1.9; }
         .weather-alert {
-            background: #fff3cd;
-            padding: 8px 16px;
+            background: #f6ecd7;
+            border-bottom: 1px solid var(--line);
+            padding: 9px 16px;
             font-size: 12px;
-            color: #856404;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: #7a5a1e;
+            line-height: 1.7;
+            display: flex; gap: 6px; align-items: flex-start;
         }
         .weather-hourly {
-            padding: 12px 16px;
+            padding: 12px 14px;
             display: flex;
             overflow-x: auto;
-            gap: 16px;
+            gap: 14px;
             scrollbar-width: none;
         }
         .weather-hourly::-webkit-scrollbar { display: none; }
-        .hour-item {
-            text-align: center;
-            min-width: 44px;
-            font-size: 11px;
-            color: #555;
-        }
-        .hour-item .hour-time { color: #999; margin-bottom: 4px; }
-        .hour-item .hour-icon { font-size: 18px; margin: 4px 0; }
-        .hour-item .hour-temp { font-weight: 600; color: #333; }
-        /* 通用板块标题 */
+        .hour-item { text-align: center; min-width: 42px; font-size: 11px; color: var(--ink-light); }
+        .hour-item .hour-time { color: var(--muted); margin-bottom: 3px; }
+        .hour-item .hour-icon { font-size: 17px; margin: 3px 0; }
+        .hour-item .hour-temp { font-weight: 600; color: var(--ink); }
+
+        /* ===== 板块标题 ===== */
         .section-title {
-            padding: 20px 16px 10px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
+            padding: 24px 18px 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
+            color: var(--ink);
         }
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-            margin-left: 8px;
+        .section-title .ic { font-size: 19px; color: var(--dark); flex-shrink: 0; }
+        .section-title h2 {
+            font-family: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+            font-size: 17px; font-weight: 700; letter-spacing: 1.5px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+        .update-badge {
+            font-size: 10px; color: var(--seal);
+            border: 1px solid rgba(176,67,47,.45);
+            padding: 1px 7px; border-radius: 3px;
+            letter-spacing: 1px; white-space: nowrap;
         }
 
-        /* 标签切换 */
-        .tab-bar {
-            display: flex;
-            border-bottom: 1px solid #eee;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px 8px;
-            font-size: 13px;
-            border: none;
-            background: none;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        .tab-btn.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-            font-weight: 600;
-        }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* 卡片样式 */
+        /* ===== 卡片通用 ===== */
         .card {
-            background: white;
+            background: var(--card);
+            border: 1px solid var(--line);
             border-radius: 14px;
-            margin: 0 16px 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 0 14px 4px;
             overflow: hidden;
-            transition: transform 0.2s;
         }
-        .card:active { transform: scale(0.98); }
 
-        /* 旅游攻略卡片 */
-        .guide-tabs {
-            display: flex;
-            gap: 8px;
-            padding: 12px 16px 0;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        .guide-tabs::-webkit-scrollbar { display: none; }
-        .guide-tab {
-            flex-shrink: 0;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            border: 1.5px solid #ddd;
-            background: white;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .guide-tab.active {
-            background: #667eea;
-            border-color: #667eea;
-            color: white;
-            font-weight: 600;
-        }
-        .guide-panel { display: none; padding: 12px 16px; }
-        .guide-panel.active { display: block; }
-        .route-card {
-            background: #f8f9ff;
+        /* ===== 快捷入口 ===== */
+        .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 14px; }
+        .quick-link {
+            background: var(--card);
+            border: 1px solid var(--line);
             border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-left: 4px solid #667eea;
-        }
-        .route-card:last-child { margin-bottom: 0; }
-        .route-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        .route-title { font-size: 14px; font-weight: 700; color: #333; }
-        .route-badge {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #667eea;
-            color: white;
-        }
-        .route-steps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-        .route-step {
-            font-size: 12px;
-            color: #555;
-            background: white;
-            padding: 3px 10px;
-            border-radius: 8px;
-            border: 1px solid #e0e2f0;
-        }
-        .route-step::before { content: '→ '; color: #667eea; }
-        .route-step:first-child::before { content: ''; }
-        .route-tip {
-            font-size: 11px;
-            color: #888;
-            line-height: 1.6;
-        }
-        .guide-link-btn {
+            padding: 15px 12px 13px;
+            text-align: left;
+            text-decoration: none;
+            color: var(--ink);
             display: block;
-            text-align: center;
-            padding: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 12px;
-            cursor: pointer;
+            transition: transform .15s;
         }
-        .sight-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .sight-card:last-child { border-bottom: none; }
-        .sight-icon { font-size: 30px; flex-shrink: 0; }
-        .sight-name { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 4px; }
-        .sight-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 5px; }
-        .sight-tag {
-            font-size: 11px;
-            padding: 1px 7px;
-            border-radius: 6px;
-            background: #eef0ff;
-            color: #667eea;
-        }
-        .sight-desc { font-size: 12px; color: #666; line-height: 1.6; }
-        .platform-links {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            padding: 4px 0 8px;
-        }
-        .platform-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1.5px solid transparent;
-        }
-        .platform-btn.official { background:#fff3cd; color:#856404; border-color:#ffc107; }
-        .platform-btn.mafengwo { background:#fff0f0; color:#e44c2a; border-color:#e44c2a; }
-        .platform-btn.ctrip    { background:#e8f4ff; color:#007bff; border-color:#007bff; }
-        .platform-btn.dianping { background:#fff0e0; color:#ff6900; border-color:#ff6900; }
-        .platform-btn.douyin   { background:#f1f1f1; color:#111; border-color:#ccc; }
-        .platform-btn.ahjxtrip { background:#e6fff0; color:#06b050; border-color:#06b050; }
-        .platform-btn.toutiao  { background:#fff5f5; color:#e02020; border-color:#e02020; }
+        .quick-link:active { transform: scale(.97); }
+        .quick-link .ic { font-size: 24px; color: var(--dark); }
+        .quick-link-name { font-size: 14px; font-weight: 600; margin-top: 8px; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; letter-spacing: 1px; }
+        .quick-link-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-        /* 文章目录 */
-        .article-list { padding: 4px 0; }
+        /* ===== 文章目录 ===== */
         .article-item {
-            display: flex;
-            align-items: center;
-            padding: 13px 16px;
-            border-bottom: 1px solid #f5f5f5;
-            cursor: pointer;
-            text-decoration: none;
+            display: flex; align-items: center;
+            padding: 13px 15px;
+            border-bottom: 1px solid #efe9da;
+            text-decoration: none; color: var(--ink);
         }
         .article-item:last-child { border-bottom: none; }
         .article-num {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            width: 26px; height: 26px; flex-shrink: 0;
+            background: var(--seal);
+            color: #fffdf7;
+            font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+            font-size: 13px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 5px;
             margin-right: 12px;
+            position: relative;
         }
+        .article-num::after { content:''; position:absolute; inset:2px; border:1px solid rgba(255,253,247,.5); border-radius:3px; }
         .article-info { flex: 1; }
-        .article-name { font-size: 14px; color: #333; font-weight: 500; }
-        .article-source { font-size: 11px; color: #999; margin-top: 2px; }
-        .article-arrow { color: #ccc; font-size: 16px; }
+        .article-name { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+        .article-source { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+        .article-arrow { color: #c9c2ae; margin-left: 8px; font-size: 15px; }
 
-        /* 景点门票 */
-        .ticket-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px; }
+        /* ===== 标签页 ===== */
+        .tab-bar { display: flex; border-bottom: 1px solid var(--line); background: #f8f4e9; }
+        .tab-btn {
+            flex: 1; padding: 12px 6px;
+            font-size: 13px; letter-spacing: 1px;
+            border: none; background: none; color: var(--ink-light);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+            transition: all .2s;
+        }
+        .tab-btn.active { color: var(--dark-deep); border-bottom-color: var(--seal); font-weight: 700; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ===== 门票 ===== */
+        .ticket-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; padding: 12px 14px; }
         .ticket-item {
-            background: #f8f9ff;
+            background: #f8f4e9;
+            border: 1px solid var(--line);
             border-radius: 10px;
-            padding: 12px;
+            padding: 12px 10px;
             text-align: center;
-            border: 1px solid #e8ecff;
         }
-        .ticket-icon { font-size: 24px; margin-bottom: 6px; }
-        .ticket-name { font-size: 12px; color: #555; margin-bottom: 6px; line-height: 1.3; }
-        .ticket-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #e74c3c;
-        }
-        .ticket-price span { font-size: 11px; font-weight: normal; color: #999; }
+        .ticket-item .ic { font-size: 22px; color: var(--dark); }
+        .ticket-name { font-size: 12px; color: var(--ink-light); margin-top: 5px; }
+        .ticket-price { font-size: 18px; font-weight: 700; color: var(--seal); margin-top: 2px; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; }
+        .ticket-price span { font-size: 11px; font-weight: normal; color: var(--muted); }
         .ticket-tip {
-            margin: 0 16px 12px;
-            background: #fff8e1;
+            margin: 0 14px 12px;
+            background: #f6ecd7;
             border-radius: 8px;
             padding: 10px 12px;
-            font-size: 12px;
-            color: #e65100;
-            line-height: 1.6;
+            font-size: 12px; color: #7a5a1e; line-height: 1.7;
         }
 
-        /* 停车场 */
-        .parking-list { padding: 4px 0; }
-        .parking-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ===== 停车 / 加油 ===== */
+        .parking-item, .gas-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #efe9da;
         }
-        .parking-item:last-child { border-bottom: none; }
-        .parking-left .parking-name { font-size: 14px; color: #333; font-weight: 500; }
-        .parking-left .parking-addr { font-size: 11px; color: #999; margin-top: 2px; }
-        .parking-fee {
-            font-size: 13px;
-            color: #27ae60;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        /* 加油站 */
-        .gas-list { padding: 4px 0; }
-        .gas-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f5f5f5;
-            cursor: pointer;
-        }
-        .gas-item:last-child { border-bottom: none; }
+        .parking-item:last-child, .gas-item:last-child { border-bottom: none; }
+        .parking-item { display: flex; justify-content: space-between; align-items: center; }
+        .parking-name, .gas-name { font-size: 14px; font-weight: 500; }
+        .parking-addr { font-size: 11px; color: var(--muted); margin-top: 2px; }
+        .parking-fee { font-size: 13px; color: var(--dark); font-weight: 600; white-space: nowrap; }
+        .gas-item { cursor: pointer; }
         .gas-top { display: flex; justify-content: space-between; align-items: center; }
-        .gas-name { font-size: 14px; color: #333; font-weight: 500; }
-        .gas-brand {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-        .brand-sinopec { background: #fff0f0; color: #e74c3c; }
-        .brand-petrochina { background: #fff8e1; color: #f39c12; }
-        .brand-other { background: #f0fff4; color: #27ae60; }
-        .gas-addr { font-size: 11px; color: #999; margin-top: 4px; }
-        .gas-price { font-size: 12px; color: #667eea; margin-top: 4px; }
+        .gas-brand { font-size: 10.5px; padding: 1.5px 7px; border-radius: 3px; border: 1px solid; font-weight: 600; }
+        .brand-sinopec { color: var(--seal); border-color: rgba(176,67,47,.4); background: #faf0ec; }
+        .brand-petrochina { color: #a06a1c; border-color: rgba(160,106,28,.4); background: #f8f1e0; }
+        .brand-other { color: var(--dark); border-color: rgba(63,90,82,.4); background: #edf2ef; }
+        .gas-addr { font-size: 11px; color: var(--muted); margin-top: 4px; }
+        .gas-price { font-size: 12px; color: var(--dark); margin-top: 4px; }
 
-        /* 非遗介绍 */
-        .heritage-list { padding: 8px 16px 12px; }
-        .heritage-item {
-            display: flex;
-            gap: 12px;
-            padding: 14px 0;
-            border-bottom: 1px solid #f5f5f5;
+        /* ===== 红色泾县 ===== */
+        .red-item { display: flex; gap: 12px; padding: 14px 15px; border-bottom: 1px solid #efe9da; }
+        .red-item:last-child { border-bottom: none; }
+        .red-icon {
+            width: 42px; height: 42px; flex-shrink: 0;
+            background: #faf0ec; color: var(--seal);
+            border: 1px solid rgba(176,67,47,.3);
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 21px;
         }
+        .red-name { font-size: 14.5px; font-weight: 700; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; letter-spacing: .5px; }
+        .red-tag { display: inline-block; font-size: 10px; color: var(--seal); border: 1px solid rgba(176,67,47,.4); border-radius: 3px; padding: 0 5px; margin-left: 6px; vertical-align: 1px; }
+        .red-desc { font-size: 12px; color: var(--ink-light); line-height: 1.75; margin-top: 4px; }
+
+        /* ===== 非遗 ===== */
+        .heritage-item { display: flex; gap: 12px; padding: 14px 15px; border-bottom: 1px solid #efe9da; }
         .heritage-item:last-child { border-bottom: none; }
         .heritage-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            flex-shrink: 0;
+            width: 46px; height: 46px; border-radius: 9px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            border: 1px solid var(--line);
         }
-        .heritage-content .heritage-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-        .heritage-content .heritage-level {
-            display: inline-block;
-            font-size: 10px;
-            padding: 1px 7px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-        .level-world { background: #fff3cd; color: #856404; }
-        .level-national { background: #e8f4fd; color: #0366d6; }
-        .level-provincial { background: #f0fff4; color: #2d6a4f; }
-        .heritage-content .heritage-desc {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.6;
-        }
+        .heritage-name { font-size: 14.5px; font-weight: 700; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; letter-spacing: .5px; }
+        .heritage-level { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; border: 1px solid; margin: 4px 0 5px; }
+        .level-world { color: #7a5a1e; border-color: rgba(160,106,28,.45); background: #f8f1e0; }
+        .level-national { color: var(--seal); border-color: rgba(176,67,47,.45); background: #faf0ec; }
+        .level-provincial { color: var(--dark); border-color: rgba(63,90,82,.45); background: #edf2ef; }
+        .heritage-desc { font-size: 12px; color: var(--ink-light); line-height: 1.75; }
 
-        /* 旅游资源入口 */
-        .quick-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 0 16px;
+        /* ===== 攻略 ===== */
+        .guide-tabs { display: flex; gap: 7px; padding: 12px 14px 0; overflow-x: auto; scrollbar-width: none; }
+        .guide-tabs::-webkit-scrollbar { display: none; }
+        .guide-tab {
+            flex-shrink: 0; padding: 5.5px 13px;
+            border-radius: 16px; font-size: 12.5px;
+            border: 1px solid #d5cdb6; background: none; color: var(--ink-light);
+            cursor: pointer; letter-spacing: .5px;
+            font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+            transition: all .2s;
         }
-        .quick-link {
-            background: white;
-            border-radius: 14px;
-            padding: 16px 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-            transition: transform 0.2s;
-        }
-        .quick-link:active { transform: scale(0.97); }
-        .quick-link-icon { font-size: 28px; margin-bottom: 8px; }
-        .quick-link-name { font-size: 13px; font-weight: 600; color: #333; }
-        .quick-link-desc { font-size: 11px; color: #999; margin-top: 3px; }
-
-        /* 底部 */
-        .footer {
-            text-align: center;
-            color: #aaa;
-            font-size: 11px;
-            padding: 20px 16px 30px;
-            line-height: 1.8;
-        }
-
-        /* 更新时间标签 */
-        .update-badge {
-            display: inline-block;
-            background: #e8f5e9;
-            color: #2e7d32;
-            font-size: 10px;
-            padding: 2px 8px;
+        .guide-tab.active { background: var(--dark); border-color: var(--dark); color: #f6f2e8; font-weight: 600; }
+        .guide-panel { display: none; padding: 12px 14px; }
+        .guide-panel.active { display: block; }
+        .route-card {
+            background: #f8f4e9;
+            border: 1px solid var(--line);
+            border-left: 3px solid var(--dark);
             border-radius: 10px;
-            margin-left: 8px;
-            font-weight: normal;
+            padding: 13px 14px;
+            margin-bottom: 11px;
         }
+        .route-card:last-child { margin-bottom: 2px; }
+        .route-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+        .route-title { font-size: 14px; font-weight: 700; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; letter-spacing: .5px; }
+        .route-badge { font-size: 10.5px; padding: 1.5px 8px; border-radius: 3px; background: var(--dark); color: #f6f2e8; letter-spacing: 1px; }
+        .route-steps { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+        .route-step { font-size: 12px; color: var(--ink-light); background: var(--card); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--line); }
+        .route-step + .route-step::before { content: '—'; color: #c9c2ae; margin-right: 6px; }
+        .route-tip { font-size: 11.5px; color: var(--muted); line-height: 1.75; }
+        .sight-card { display: flex; gap: 12px; padding: 13px 0; border-bottom: 1px solid #efe9da; }
+        .sight-card:last-child { border-bottom: none; }
+        .sight-icon { flex-shrink: 0; width: 40px; height: 40px; background: #f8f4e9; border: 1px solid var(--line); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); }
+        .sight-name { font-size: 14px; font-weight: 700; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; }
+        .sight-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 5px; }
+        .sight-tag { font-size: 10.5px; padding: 1px 7px; border-radius: 3px; background: #edf2ef; color: var(--dark); }
+        .sight-desc { font-size: 12px; color: var(--ink-light); line-height: 1.75; }
+        .guide-link-btn {
+            display: block; text-align: center;
+            padding: 10px;
+            background: var(--dark); color: #f6f2e8;
+            border-radius: 9px; text-decoration: none;
+            font-size: 13px; font-weight: 600; letter-spacing: 1px;
+            margin-top: 11px; cursor: pointer;
+        }
+        .guide-link-btn.wechat { background: #4a6a5f; }
+        .platform-links { display: flex; gap: 8px; flex-wrap: wrap; padding: 4px 0 8px; }
+        .platform-btn {
+            display: inline-flex; align-items: center;
+            padding: 6px 13px; border-radius: 16px;
+            font-size: 12px; font-weight: 600;
+            text-decoration: none; cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .platform-btn.official { background:#faf0ec; color:var(--seal); border-color:rgba(176,67,47,.4); }
+        .platform-btn.mafengwo { background:#faf0ec; color:#c2452f; border-color:rgba(194,69,47,.4); }
+        .platform-btn.ctrip    { background:#eef2f6; color:#2f5a83; border-color:rgba(47,90,131,.4); }
+        .platform-btn.dianping { background:#f8f1e0; color:#c06a1c; border-color:rgba(192,106,28,.4); }
+        .platform-btn.douyin   { background:#f0eee8; color:var(--ink); border-color:#d5cdb6; }
+        .platform-btn.ahjxtrip { background:#edf2ef; color:var(--dark); border-color:rgba(63,90,82,.4); }
+        .platform-btn.toutiao  { background:#f6ecd7; color:#8a5a1e; border-color:rgba(138,90,30,.4); }
+        .search-tip {
+            background: #f8f4e9; border: 1px solid var(--line);
+            border-radius: 9px; padding: 11px 13px; margin-top: 8px;
+            font-size: 12px; color: var(--ink-light); line-height: 1.85;
+        }
+
+        /* ===== 住宿 ===== */
+        .stay-item { display: flex; gap: 12px; padding: 13px 15px; border-bottom: 1px solid #efe9da; align-items: flex-start; }
+        .stay-item:last-child { border-bottom: none; }
+        .stay-icon { flex-shrink: 0; width: 40px; height: 40px; background: #f8f4e9; border: 1px solid var(--line); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); }
+        .stay-name { font-size: 13.5px; font-weight: 700; font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif; }
+        .stay-price { font-size: 11px; color: var(--seal); margin-top: 2px; }
+        .stay-desc { font-size: 12px; color: var(--ink-light); line-height: 1.7; margin-top: 4px; }
+
+        /* ===== 底部 ===== */
+        .footer {
+            text-align: center; color: var(--muted);
+            font-size: 11px; padding: 26px 18px 32px; line-height: 2;
+        }
+        .footer .seal-mark {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; background: var(--seal); color: #fffdf7;
+            border-radius: 6px; font-size: 17px; font-weight: 700;
+            font-family: 'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+            margin-bottom: 8px; position: relative;
+        }
+        .footer .seal-mark::after { content:''; position:absolute; inset:2px; border:1px solid rgba(255,253,247,.5); border-radius:4px; }
+        .footer .proj-note { color: var(--ink-light); }
     </style>
 </head>
 <body>
 
-    <!-- 顶部标题 -->
+<!-- SVG 图标库（统一线性风格） -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-mtn" viewBox="0 0 24 24"><path d="M3 18l6-10 3.5 5.5L15 10l6 8H3z"/><circle cx="17.5" cy="5.5" r="2"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2.5 9.5c2-2 4-2 6 0s4 2 6 0 4-2 6.5 0"/><path d="M2.5 15.5c2-2 4-2 6 0s4 2 6 0 4-2 6.5 0"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5z"/></symbol>
+    <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="5.5" y="3.5" width="13" height="17" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+    <symbol id="i-brush" viewBox="0 0 24 24"><path d="M16.5 3.5l4 4L11 17l-5.2 1.2L7 13l9.5-9.5z"/><path d="M4.5 19.5l2.3-2.3"/></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="5.5" r="2.3"/><circle cx="6" cy="18.5" r="2.3"/><path d="M8 7L20 19M8 17L20 5"/></symbol>
+    <symbol id="i-blind" viewBox="0 0 24 24"><path d="M5 4v16M9.7 4v16M14.3 4v16M19 4v16"/><path d="M3.5 4h17M3.5 20h17"/></symbol>
+    <symbol id="i-lantern" viewBox="0 0 24 24"><path d="M12 2.5V5M12 19v2.5"/><ellipse cx="12" cy="12" rx="5.5" ry="7"/><path d="M9.8 5.8h4.4"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 7.5v11"/><path d="M3 15h18v3.5"/><path d="M21 15v-3.5a2.5 2.5 0 0 0-2.5-2.5H10V15"/><circle cx="6.6" cy="11.2" r="1.6"/></symbol>
+    <symbol id="i-bowl" viewBox="0 0 24 24"><path d="M4 11.5h16a8 8 0 0 1-16 0z"/><path d="M8.5 20.5h7"/><path d="M18 3.5L12 11"/><path d="M21 5.5L14.5 10.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="5.5" r="2"/><path d="M7.5 18.5h6a3.2 3.2 0 0 0 0-6.4h-3a3.2 3.2 0 0 1 0-6.4h6" stroke-dasharray="2.6 2.2"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3.5 8A2.5 2.5 0 0 1 6 5.5h12A2.5 2.5 0 0 1 20.5 8v1.5a2.5 2.5 0 0 0 0 5V16a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 16v-1.5a2.5 2.5 0 0 0 0-5V8z"/><path d="M14.5 6.5v11" stroke-dasharray="2 2.2"/></symbol>
+    <symbol id="i-park" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M9.5 16.5v-9h3.2a2.6 2.6 0 0 1 0 5.2H9.5"/></symbol>
+    <symbol id="i-fuel" viewBox="0 0 24 24"><path d="M5.5 21V6A2 2 0 0 1 7.5 4h5a2 2 0 0 1 2 2v15"/><path d="M4 21h12"/><path d="M5.5 12h9"/><path d="M14.5 9h1.6a2 2 0 0 1 2 2v5.4a1.6 1.6 0 0 0 3.2 0V9.6l-2.3-3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4.5 5.5A2.5 2.5 0 0 1 7 3h12.5v15H7a2.5 2.5 0 0 0-2.5 2.5V5.5z"/><path d="M4.5 20.5A2.5 2.5 0 0 1 7 18h12.5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5-5"/></symbol>
+    <symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 3.5l4.5 6.5h-2.8l4.3 6H6l4.3-6H7.5L12 3.5z"/><path d="M12 16v4.5"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z"/></symbol>
+    <symbol id="i-road" viewBox="0 0 24 24"><path d="M7 21L10.5 3h3L17 21"/><path d="M12 6.5v2M12 11v2M12 15.5v2"/></symbol>
+    <symbol id="i-ship" viewBox="0 0 24 24"><path d="M4 14.5h16l-2.5 5h-11l-2.5-5z"/><path d="M8 14.5v-6h5.5l1.5 6"/><path d="M12 5v3.5"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4.5 11L12 4l7.5 7"/><path d="M6.5 9.5V20h11V9.5"/><path d="M10.5 20v-5.5h3V20"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M15.8 8.2l-1.9 5.7-5.7 1.9 1.9-5.7 5.7-1.9z"/></symbol>
+    <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M4 21h16"/><path d="M6 21V10M10 21V10M14 21V10M18 21V10"/><path d="M3.5 10L12 3.5 20.5 10H3.5z"/></symbol>
+</svg>
+
+<div class="page">
+
+    <!-- 顶部 -->
     <div class="hero">
-        <h1>🏞️ 泾县旅游攻略</h1>
-        <p>发现泾县之美 · 2026年9月</p>
+        <div class="hero-top">
+            <div class="seal">泾</div>
+            <div>
+                <h1>泾县旅游攻略</h1>
+                <div class="hero-sub">青弋江畔 · 宣纸之乡</div>
+            </div>
+        </div>
+        <div class="hero-tagline serif">山水、古村、红色旧址与一张宣纸的故事，都在这一页。</div>
+        <svg class="hero-mtn" viewBox="0 0 375 80" preserveAspectRatio="none">
+            <path d="M0 80L38 48l30 20 42-38 38 34 32-22 42 30 34-30 38 26 41-18 40 30v0H0z" fill="rgba(246,242,232,.07)"/>
+            <path d="M0 80l48-22 44 14 46-26 48 24 50-22 46 20 47-16 46 18v10H0z" fill="rgba(246,242,232,.12)"/>
+        </svg>
     </div>
 
-    <!-- ① 天气预报 -->
+    <!-- 天气 -->
     <div class="weather-card">
         <div class="weather-header">
             <div>
-                <div class="weather-title">📍 安徽·泾县 今日天气</div>
+                <div class="weather-title">安徽 · 泾县 今日天气</div>
                 <div class="weather-temp">20℃</div>
-                <div class="weather-desc">Clear  · 空气优</div>
+                <div class="weather-desc">晴 · 空气优</div>
             </div>
             <div class="weather-right">
                 <div>🌡️ 15~24℃</div>
                 <div>💧 湿度 74%</div>
                 <div>🍃 南风 4级</div>
-                <div>🌅 05:16 / 18:47</div>
+                <div>🌅 06:07 / 17:53</div>
             </div>
         </div>
         <div class="weather-alert">
-            ⚠️ <strong>出行提示：</strong>今日阴有小雨，外出请携带雨具，驾车注意路滑减速慢行
+            <span>⚠</span><span><strong>出行提示：</strong>秋季山区早晚温差近10℃，皖南川藏线桃岭段弯多雾重，自驾注意会车减速，勿在弯道停车拍照。</span>
         </div>
         <div class="weather-hourly">
-            <div class="hour-item"><div class="hour-time">16时</div><div class="hour-icon">⛅</div><div class="hour-temp">24°</div></div>
-            <div class="hour-item"><div class="hour-time">18时</div><div class="hour-icon">🌧️</div><div class="hour-temp">22°</div></div>
-            <div class="hour-item"><div class="hour-time">20时</div><div class="hour-icon">🌧️</div><div class="hour-temp">20°</div></div>
-            <div class="hour-item"><div class="hour-time">22时</div><div class="hour-icon">☁️</div><div class="hour-temp">18°</div></div>
-            <div class="hour-item"><div class="hour-time">00时</div><div class="hour-icon">☁️</div><div class="hour-temp">17°</div></div>
-            <div class="hour-item"><div class="hour-time">02时</div><div class="hour-icon">☁️</div><div class="hour-temp">16°</div></div>
-            <div class="hour-item"><div class="hour-time">04时</div><div class="hour-icon">🌧️</div><div class="hour-temp">15°</div></div>
-            <div class="hour-item"><div class="hour-time">06时</div><div class="hour-icon">🌧️</div><div class="hour-temp">15°</div></div>
+            <div class="hour-item"><div class="hour-time">19时</div><div class="hour-icon">☁️</div><div class="hour-temp">19°</div></div>
+            <div class="hour-item"><div class="hour-time">20时</div><div class="hour-icon">☁️</div><div class="hour-temp">18°</div></div>
+            <div class="hour-item"><div class="hour-time">21时</div><div class="hour-icon">☁️</div><div class="hour-temp">17°</div></div>
+            <div class="hour-item"><div class="hour-time">22时</div><div class="hour-icon">☁️</div><div class="hour-temp">17°</div></div>
+            <div class="hour-item"><div class="hour-time">00时</div><div class="hour-icon">☁️</div><div class="hour-temp">16°</div></div>
+            <div class="hour-item"><div class="hour-time">02时</div><div class="hour-icon">☁️</div><div class="hour-temp">15°</div></div>
+            <div class="hour-item"><div class="hour-time">04时</div><div class="hour-icon">🌫️</div><div class="hour-temp">15°</div></div>
+            <div class="hour-item"><div class="hour-time">06时</div><div class="hour-icon">🌫️</div><div class="hour-temp">15°</div></div>
             <div class="hour-item"><div class="hour-time">08时</div><div class="hour-icon">⛅</div><div class="hour-temp">17°</div></div>
-            <div class="hour-item"><div class="hour-time">10时</div><div class="hour-icon">⛅</div><div class="hour-temp">20°</div></div>
+            <div class="hour-item"><div class="hour-time">10时</div><div class="hour-icon">⛅</div><div class="hour-temp">21°</div></div>
         </div>
     </div>
 
-    <!-- ② 快捷入口 -->
-    <div class="section-title">🗺️ 旅游资源入口</div>
+    <!-- 线上资讯 -->
+    <div class="section-title"><svg class="ic"><use href="#i-search"/></svg><h2>线上资讯</h2></div>
     <div class="quick-links">
         <a class="quick-link" href="https://wst.ahctic.cn/wst#/pages/search/list/index?keyword=%E6%B3%BE%E5%8E%BF" onclick="openLink(this.href);return false;">
-            <div class="quick-link-icon">🔍</div>
+            <svg class="ic"><use href="#i-search"/></svg>
             <div class="quick-link-name">景点搜索</div>
-            <div class="quick-link-desc">搜索泾县所有景点</div>
+            <div class="quick-link-desc">查全县景点开放信息</div>
         </a>
         <a class="quick-link" href="https://wst.ahctic.cn/wst#/pages/line/detail/index?id=753" onclick="openLink(this.href);return false;">
-            <div class="quick-link-icon">🛤️</div>
-            <div class="quick-link-name">旅游线路</div>
-            <div class="quick-link-desc">官方推荐行程</div>
+            <svg class="ic"><use href="#i-route"/></svg>
+            <div class="quick-link-name">官方线路</div>
+            <div class="quick-link-desc">文旅部门推荐行程</div>
         </a>
     </div>
 
-    <!-- ③ 精选文章目录 -->
-    <div class="section-title">📚 泾县旅游精选文章 <span class="update-badge">5篇推荐</span></div>
+    <!-- 精选文章 -->
+    <div class="section-title"><svg class="ic"><use href="#i-book"/></svg><h2>精选文章</h2><span class="update-badge">五篇</span></div>
     <div class="card">
-        <div class="article-list">
-            <a class="article-item" href="https://k.sina.cn/article_7880069195_1d5b0504b068016x9w.html" onclick="openLink(this.href);return false;">
-                <div class="article-num">1</div>
-                <div class="article-info">
-                    <div class="article-name">🍁 皖南川藏线3天自驾·秋日必驾"江南天路"全攻略</div>
-                    <div class="article-source">新浪看点 · 落羽杉红叶+桃岭六道弯+3日行程+避坑指南 · 2026秋季版</div>
-                </div>
-                <div class="article-arrow">›</div>
-            </a>
-            <a class="article-item" href="https://www.ahjxtrip.com/archives/jing-xian-lu-you-gong-lue-2026zui-xin-ban" onclick="openLink(this.href);return false;">
-                <div class="article-num">2</div>
-                <div class="article-info">
-                    <div class="article-name">泾县旅游攻略（2026最新版）</div>
-                    <div class="article-source">云游泾县 · 景点TOP8+一日/二日路线+食宿全覆盖</div>
-                </div>
-                <div class="article-arrow">›</div>
-            </a>
-            <a class="article-item" href="https://mp.weixin.qq.com/s/LDFegB9lJO9RuUFIlkUV-Q" onclick="openLink(this.href);return false;">
-                <div class="article-num">3</div>
-                <div class="article-info">
-                    <div class="article-name">宝藏小城秋游大放送丨泾县约你一起玩~</div>
-                    <div class="article-source">微信公众号「泾县文化旅游」· 秋季文旅活动汇总</div>
-                </div>
-                <div class="article-arrow">›</div>
-            </a>
-            <a class="article-item" href="https://mp.weixin.qq.com/s/3NMV87CFsTE8qyvd1wApqA" onclick="openLink(this.href);return false;">
-                <div class="article-num">4</div>
-                <div class="article-info">
-                    <div class="article-name">泾县"十二花神"· 内含赏花地图全攻略</div>
-                    <div class="article-source">微信公众号「泾县之窗」· 四季花海打卡指南（含秋菊）</div>
-                </div>
-                <div class="article-arrow">›</div>
-            </a>
-            <a class="article-item" href="https://www.toutiao.com/article/7628545336277058063/" onclick="openLink(this.href);return false;">
-                <div class="article-num">5</div>
-                <div class="article-info">
-                    <div class="article-name">宣城泾县旅游全攻略（2026版）</div>
-                    <div class="article-source">今日头条 · 自驾皖南川藏线+查济古村完整路线</div>
-                </div>
-                <div class="article-arrow">›</div>
-            </a>
-        </div>
+        <a class="article-item" href="https://k.sina.cn/article_7880069195_1d5b0504b068016x9w.html" onclick="openLink(this.href);return false;">
+            <div class="article-num">壹</div>
+            <div class="article-info">
+                <div class="article-name">皖南川藏线3天自驾 · 秋日必驾"江南天路"全攻略</div>
+                <div class="article-source">新浪看点 · 落羽杉红叶 + 桃岭六道弯 + 三日行程 · 2026秋季版</div>
+            </div>
+            <div class="article-arrow">›</div>
+        </a>
+        <a class="article-item" href="https://www.ahjxtrip.com/archives/jing-xian-lu-you-gong-lue-2026zui-xin-ban" onclick="openLink(this.href);return false;">
+            <div class="article-num">贰</div>
+            <div class="article-info">
+                <div class="article-name">泾县旅游攻略（2026最新版）</div>
+                <div class="article-source">云游泾县 · 景点TOP8 + 一日/二日路线 + 食宿</div>
+            </div>
+            <div class="article-arrow">›</div>
+        </a>
+        <a class="article-item" href="https://mp.weixin.qq.com/s/LDFegB9lJO9RuUFIlkUV-Q" onclick="openLink(this.href);return false;">
+            <div class="article-num">叁</div>
+            <div class="article-info">
+                <div class="article-name">宝藏小城秋游大放送丨泾县约你一起玩</div>
+                <div class="article-source">微信公众号「泾县文化旅游」· 秋季活动汇总</div>
+            </div>
+            <div class="article-arrow">›</div>
+        </a>
+        <a class="article-item" href="https://mp.weixin.qq.com/s/3NMV87CFsTE8qyvd1wApqA" onclick="openLink(this.href);return false;">
+            <div class="article-num">肆</div>
+            <div class="article-info">
+                <div class="article-name">泾县"十二花神" · 内含赏花地图全攻略</div>
+                <div class="article-source">微信公众号「泾县之窗」· 四季花海指南</div>
+            </div>
+            <div class="article-arrow">›</div>
+        </a>
+        <a class="article-item" href="https://www.toutiao.com/article/7628545336277058063/" onclick="openLink(this.href);return false;">
+            <div class="article-num">伍</div>
+            <div class="article-info">
+                <div class="article-name">宣城泾县旅游全攻略（2026版）</div>
+                <div class="article-source">今日头条 · 皖南川藏线 + 查济古村完整路线</div>
+            </div>
+            <div class="article-arrow">›</div>
+        </a>
     </div>
 
-    <!-- ④ 出行服务（景区+停车+加油） -->
-    <div class="section-title">🚗 出行服务</div>
-    <div class="card" style="padding:0;overflow:hidden;">
-        <div class="tab-bar">
-            <button class="tab-btn active" onclick="switchTab(this, 'tab-ticket')">🎟️ 景区门票</button>
-            <button class="tab-btn" onclick="switchTab(this, 'tab-parking')">🅿️ 停车场</button>
-            <button class="tab-btn" onclick="switchTab(this, 'tab-gas')">⛽ 加油站</button>
-        </div>
-
-        <div id="tab-ticket" class="tab-content active">
-            <div class="ticket-grid" style="padding:12px;">
-                <div class="ticket-item">
-                    <div class="ticket-icon">🌊</div>
-                    <div class="ticket-name">桃花潭风景区</div>
-                    <div class="ticket-price">65<span>元/人</span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🏘️</div>
-                    <div class="ticket-name">查济古村</div>
-                    <div class="ticket-price">65<span>元/人</span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">📜</div>
-                    <div class="ticket-name">宣纸文化园</div>
-                    <div class="ticket-price">45<span>元/人</span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🌿</div>
-                    <div class="ticket-name">水墨汀溪</div>
-                    <div class="ticket-price">60<span>元/人</span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🌙</div>
-                    <div class="ticket-name">月亮湾</div>
-                    <div class="ticket-price">免费<span></span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🛣️</div>
-                    <div class="ticket-name">皖南川藏线</div>
-                    <div class="ticket-price">免费<span></span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🏡</div>
-                    <div class="ticket-name">黄田景区</div>
-                    <div class="ticket-price">50<span>元/人</span></div>
-                </div>
-                <div class="ticket-item">
-                    <div class="ticket-icon">🚣</div>
-                    <div class="ticket-name">江南第一漂</div>
-                    <div class="ticket-price">80<span>元/人</span></div>
-                </div>
-            </div>
-            <div class="ticket-tip" style="margin:0 12px 12px;">
-                💡 <strong>优惠：</strong>60岁以上老人、军人、残疾人凭证免票；学生半价。部分景区早7点前/晚5点后可能免票，以景区官方为准。
-            </div>
-        </div>
-
-        <div id="tab-parking" class="tab-content">
-            <div class="parking-list">
-                <div class="parking-item">
-                    <div class="parking-left">
-                        <div class="parking-name">桃花潭景区停车场</div>
-                        <div class="parking-addr">泾县桃花潭镇景区入口旁</div>
-                    </div>
-                    <div class="parking-fee">5元/次</div>
-                </div>
-                <div class="parking-item">
-                    <div class="parking-left">
-                        <div class="parking-name">查济古村停车场</div>
-                        <div class="parking-addr">泾县蔡村镇查济村入口</div>
-                    </div>
-                    <div class="parking-fee">5元/次</div>
-                </div>
-                <div class="parking-item">
-                    <div class="parking-left">
-                        <div class="parking-name">宣纸文化园停车场</div>
-                        <div class="parking-addr">泾县榔桥镇宣纸文化园</div>
-                    </div>
-                    <div class="parking-fee">免费</div>
-                </div>
-                <div class="parking-item">
-                    <div class="parking-left">
-                        <div class="parking-name">水墨汀溪停车场</div>
-                        <div class="parking-addr">泾县蔡村镇汀溪景区</div>
-                    </div>
-                    <div class="parking-fee">10元/次</div>
-                </div>
-                <div class="parking-item">
-                    <div class="parking-left">
-                        <div class="parking-name">月亮湾观景台停车</div>
-                        <div class="parking-addr">皖南川藏线沿线</div>
-                    </div>
-                    <div class="parking-fee">免费</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-gas" class="tab-content">
-            <div class="gas-list">
-                <div class="gas-item" onclick="openMap('泾县中石化加油站')">
-                    <div class="gas-top">
-                        <div class="gas-name">中石化泾县加油站</div>
-                        <div class="gas-brand brand-sinopec">中石化</div>
-                    </div>
-                    <div class="gas-addr">📍 泾县徽杭路（泾县收费站附近）</div>
-                    <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
-                </div>
-                <div class="gas-item" onclick="openMap('泾县中石油加油站')">
-                    <div class="gas-top">
-                        <div class="gas-name">中石油泾县加油站</div>
-                        <div class="gas-brand brand-petrochina">中石油</div>
-                    </div>
-                    <div class="gas-addr">📍 泾县城关镇解放路</div>
-                    <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
-                </div>
-                <div class="gas-item" onclick="openMap('桃花潭镇加油站')">
-                    <div class="gas-top">
-                        <div class="gas-name">桃花潭镇加油站</div>
-                        <div class="gas-brand brand-other">社会站</div>
-                    </div>
-                    <div class="gas-addr">📍 桃花潭镇主干道旁（游客集中区）</div>
-                    <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
-                </div>
-                <div class="gas-item" onclick="openMap('宣广高速泾县服务区')">
-                    <div class="gas-top">
-                        <div class="gas-name">宣广高速·泾县服务区</div>
-                        <div class="gas-brand brand-sinopec">中石化</div>
-                    </div>
-                    <div class="gas-addr">📍 宣广高速泾县段服务区内</div>
-                    <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- ⑥ 泾县非遗 -->
-    <div class="section-title">🏺 泾县非物质文化遗产</div>
+    <!-- 游玩攻略 -->
+    <div class="section-title"><svg class="ic"><use href="#i-compass"/></svg><h2>游玩攻略</h2><span class="update-badge">十月版</span></div>
     <div class="card">
-        <div class="heritage-list">
-            <div class="heritage-item">
-                <div class="heritage-icon" style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">📜</div>
-                <div class="heritage-content">
-                    <div class="heritage-name">宣纸制作技艺</div>
-                    <span class="heritage-level level-world">🌍 联合国人类非遗</span>
-                    <div class="heritage-desc">宣纸产于安徽泾县，始于唐代，有"纸中之王"美称。制作需经100余道工序，原料为青檀皮与沙田稻草。2009年被列入联合国教科文组织人类非物质文化遗产名录，是安徽省唯一独立申报的人类非遗。</div>
-                </div>
-            </div>
-            <div class="heritage-item">
-                <div class="heritage-icon" style="background: linear-gradient(135deg, #a8e6cf, #56ab91);">🖌️</div>
-                <div class="heritage-content">
-                    <div class="heritage-name">宣笔制作技艺</div>
-                    <span class="heritage-level level-national">🇨🇳 国家级非遗</span>
-                    <div class="heritage-desc">宣笔与宣纸并称"文房双绝"，产于泾县，历史可追溯至秦朝。采用山兔毫、山羊毛等天然材料，制作工艺繁复，有"宣笔甲天下"之誉，是中国四大名笔之一。</div>
-                </div>
-            </div>
-            <div class="heritage-item">
-                <div class="heritage-icon" style="background: linear-gradient(135deg, #fd79a8, #e84393);">✂️</div>
-                <div class="heritage-content">
-                    <div class="heritage-name">后山剪刀制作技艺</div>
-                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
-                    <div class="heritage-desc">泾县后山剪刀已有数百年历史，以手工锻造为主，刃口锋利、经久耐用。2014年入选安徽省第四批省级非物质文化遗产代表性项目名录。</div>
-                </div>
-            </div>
-            <div class="heritage-item">
-                <div class="heritage-icon" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">🎋</div>
-                <div class="heritage-content">
-                    <div class="heritage-name">宣纸帘制作技艺</div>
-                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
-                    <div class="heritage-desc">宣纸帘是制作宣纸不可缺少的工具，采用泾县特产苦竹丝手工编织，工艺精细，一张帘子需要数日完成，是宣纸制作产业链中的重要组成部分。</div>
-                </div>
-            </div>
-            <div class="heritage-item">
-                <div class="heritage-icon" style="background: linear-gradient(135deg, #55efc4, #00b894);">🥢</div>
-                <div class="heritage-content">
-                    <div class="heritage-name">泾县茂林抬阁</div>
-                    <span class="heritage-level level-provincial">🏛️ 省级非遗</span>
-                    <div class="heritage-desc">茂林抬阁是泾县茂林镇传统民俗表演艺术，每逢重大节日举行，演员装扮成戏曲人物被固定于高架之上，颇为壮观，体现了皖南地区独特的民间文化传承。</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ⑦ 旅游攻略 -->
-    <div class="section-title">🧭 旅游攻略 <span class="update-badge">精选推荐</span></div>
-    <div class="card" style="padding:0;overflow:hidden;">
-        <!-- 攻略内容标签切换 -->
         <div class="guide-tabs">
-            <button class="guide-tab active" onclick="switchGuide(this,'guide-route')">🗺️ 推荐路线</button>
-            <button class="guide-tab" onclick="switchGuide(this,'guide-sight')">🏞️ 景点速览</button>
-            <button class="guide-tab" onclick="switchGuide(this,'guide-tips')">💡 实用贴士</button>
-            <button class="guide-tab" onclick="switchGuide(this,'guide-platform')">🔗 更多攻略</button>
+            <button class="guide-tab active" onclick="switchGuide(this,'guide-route')">推荐路线</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-sight')">景点速览</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-tips')">实用贴士</button>
+            <button class="guide-tab" onclick="switchGuide(this,'guide-platform')">更多攻略</button>
         </div>
 
         <!-- 推荐路线 -->
         <div id="guide-route" class="guide-panel active">
             <div class="route-card">
                 <div class="route-header">
-                    <div class="route-title">🚗 3天2夜深度自驾游</div>
+                    <div class="route-title">三天两晚深度自驾</div>
                     <div class="route-badge">推荐</div>
                 </div>
                 <div class="route-steps">
@@ -749,171 +514,409 @@
                     <div class="route-step">水墨汀溪</div>
                     <div class="route-step">宣纸文化园</div>
                 </div>
-                <div class="route-tip">D1：桃花潭-李白古渡口-踏歌岸阁 / D2：查济古村-皖南川藏线（桃岭六道弯→蔡村）/ D3：水墨汀溪-宣纸文化园体验捞纸</div>
+                <div class="route-tip">D1 桃花潭古渡口、踏歌岸阁，宿潭边；D2 查济古村，午后走皖南川藏线桃岭段，宿蔡村或汀溪；D3 水墨汀溪步道，宣纸文化园看捞纸。</div>
             </div>
-            <div class="route-card" style="border-left-color:#e17055;">
+            <div class="route-card" style="border-left-color:#a06a1c;">
                 <div class="route-header">
-                    <div class="route-title">🍁 秋季彩林摄影2日游</div>
-                    <div class="route-badge" style="background:#e17055;">秋季推荐</div>
+                    <div class="route-title">秋季彩林两日</div>
+                    <div class="route-badge" style="background:#a06a1c;">九至十一月</div>
                 </div>
                 <div class="route-steps">
                     <div class="route-step">皖南川藏线</div>
                     <div class="route-step">桃花潭</div>
                     <div class="route-step">查济古村</div>
                 </div>
-                <div class="route-tip">D1：皖南川藏线（桃岭六道弯→红杉林→蔡村）赏秋日彩林，傍晚抵达桃花潭看日落 / D2：桃花潭晨雾→查济古村秋色写生→返程。9-11月最佳，建议带相机和长焦镜头。</div>
+                <div class="route-tip">D1 走桃岭六道弯看红叶，傍晚到桃花潭等日落；D2 赶早看潭面晨雾，再去查济拍古村秋色。想拍好照片记得带长焦，早上七点前出门。</div>
             </div>
-            <div class="route-card" style="border-left-color:#a29bfe;">
+            <div class="route-card" style="border-left-color:#b0432f;">
                 <div class="route-header">
-                    <div class="route-title">🎨 跟着非遗游泾县</div>
-                    <div class="route-badge" style="background:#a29bfe;">特色</div>
+                    <div class="route-title">红色记忆一日线</div>
+                    <div class="route-badge" style="background:#b0432f;">免费</div>
+                </div>
+                <div class="route-steps">
+                    <div class="route-step">皖南事变烈士陵园</div>
+                    <div class="route-step">云岭新四军军部旧址</div>
+                    <div class="route-step">王稼祥故居</div>
+                </div>
+                <div class="route-tip">三个点都在县城以西，串起来一天正好，全程免票。可与桃花潭串联，适合单位党建活动和亲子研学。</div>
+            </div>
+            <div class="route-card" style="border-left-color:#4a6a5f;">
+                <div class="route-header">
+                    <div class="route-title">跟着非遗游泾县</div>
+                    <div class="route-badge" style="background:#4a6a5f;">研学</div>
                 </div>
                 <div class="route-steps">
                     <div class="route-step">宣纸文化园</div>
                     <div class="route-step">中国宣笔博物馆</div>
                     <div class="route-step">查济古村</div>
-                    <div class="route-step">茂林抬阁</div>
+                    <div class="route-step">茂林镇</div>
                 </div>
-                <div class="route-tip">深度体验泾县非物质文化遗产，亲手造一张宣纸带回家，推荐2天行程</div>
+                <div class="route-tip">在文化园亲手捞一张纸，晾干后可以带走。两天时间比较从容，孩子体验感好。</div>
             </div>
         </div>
 
         <!-- 景点速览 -->
         <div id="guide-sight" class="guide-panel">
             <div class="sight-card">
-                <div class="sight-icon">🌊</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-wave"/></svg></div>
                 <div>
                     <div class="sight-name">桃花潭风景区</div>
-                    <div class="sight-tags"><span class="sight-tag">4A景区</span><span class="sight-tag">李白圣地</span><span class="sight-tag">必去</span></div>
-                    <div class="sight-desc">李白"桃花潭水深千尺，不及汪伦送我情"的吟咏之地。古渡口、踏歌岸阁、万村老街一步一景。🍁秋季晨雾缭绕如水墨画，两岸红枫倒映潭中，摄影绝佳。门票65元，游船另计。</div>
+                    <div class="sight-tags"><span class="sight-tag">4A景区</span><span class="sight-tag">李白诗作原址</span></div>
+                    <div class="sight-desc">"桃花潭水深千尺"写的就是这里。老街、古渡口都在潭边，秋季清晨常有雾，想拍水面倒影要赶早。门票65元，游船另收费。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">🏘️</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-home"/></svg></div>
                 <div>
                     <div class="sight-name">查济古村</div>
-                    <div class="sight-tags"><span class="sight-tag">千年古村</span><span class="sight-tag">写生圣地</span><span class="sight-tag">摄影</span></div>
-                    <div class="sight-desc">中国现存规模最大的古民居群之一，始建于隋唐，现存明清古建筑100余幢。🍁秋季金黄银杏与白墙黛瓦相映成趣，是写生和摄影的黄金季节。被誉为"中华写生第一村"。门票65元。</div>
+                    <div class="sight-tags"><span class="sight-tag">明清古建筑群</span><span class="sight-tag">写生胜地</span></div>
+                    <div class="sight-desc">泾县现存最大的古村落，明清老宅连成片，美术生常年来此写生。巷子多，容易走重复路，进村先留意桥和祠堂的位置。门票65元。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">🏔️</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-road"/></svg></div>
                 <div>
                     <div class="sight-name">皖南川藏线</div>
-                    <div class="sight-tags"><span class="sight-tag">自驾天堂</span><span class="sight-tag">网红公路</span><span class="sight-tag">免费</span><span class="sight-tag" style="background:#fff3e0;color:#e17055;">🍁秋季绝景</span></div>
-                    <div class="sight-desc">全程约120公里，穿越泾县、旌德、宁国，山路十八弯、茶园梯田、云海松涛。🍁<strong>秋季（9-11月）红枫银杏层林尽染，被誉为"皖南最美公路"</strong>，桃岭"六道弯"最为惊险刺激。免费通行，建议避开节假日。</div>
+                    <div class="sight-tags"><span class="sight-tag">自驾线路</span><span class="sight-tag">免费通行</span></div>
+                    <div class="sight-desc">全程约120公里山路，桃岭段连续发卡弯，会车务必减速。九到十一月沿线红叶转色，是一年里最好看的时段。节假日车多，尽量八点前上路。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">💧</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-tree"/></svg></div>
                 <div>
                     <div class="sight-name">水墨汀溪</div>
-                    <div class="sight-tags"><span class="sight-tag">亲水乐园</span><span class="sight-tag">漂流</span><span class="sight-tag">避暑</span></div>
-                    <div class="sight-desc">皖南最美溪流之一，溪水清澈见底，可漂流、戏水、垂钓。夏天避暑胜地，两岸竹林葱郁。门票60元，漂流另计。</div>
+                    <div class="sight-tags"><span class="sight-tag">溪谷步道</span><span class="sight-tag">夏季漂流</span></div>
+                    <div class="sight-desc">溪水浅而清，适合带孩子玩水，两岸竹林密，走步道不晒。漂流只在夏季开放。门票60元，漂流另计。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">📜</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-scroll"/></svg></div>
                 <div>
                     <div class="sight-name">宣纸文化园</div>
-                    <div class="sight-tags"><span class="sight-tag">非遗体验</span><span class="sight-tag">研学游</span><span class="sight-tag">联合国人类非遗</span></div>
-                    <div class="sight-desc">探访联合国人类非遗——宣纸制作技艺。可参观108道工序，亲手体验捞纸，购买正宗泾县宣纸。门票45元，含导览讲解。</div>
+                    <div class="sight-tags"><span class="sight-tag">人类非遗</span><span class="sight-tag">捞纸体验</span></div>
+                    <div class="sight-desc">能看完整条宣纸生产线，捞纸体验值得排队。想买纸可以园内先比价，认准正规厂家。门票45元，含讲解。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">🏡</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-landmark"/></svg></div>
                 <div>
-                    <div class="sight-name">黄田古镇</div>
-                    <div class="sight-tags"><span class="sight-tag">《大江大河》取景地</span><span class="sight-tag">洋船屋</span></div>
-                    <div class="sight-desc">罕见"洋船屋"古建筑群，徽派民居与西洋设计巧妙结合。电视剧《大江大河》取景地，古朴生活气息浓厚。门票50元。</div>
+                    <div class="sight-name">黄田景区</div>
+                    <div class="sight-tags"><span class="sight-tag">洋船屋</span><span class="sight-tag">《大江大河》取景地</span></div>
+                    <div class="sight-desc">整组清代宅院沿山势排开，形似轮船，因此叫"洋船屋"。村子不大，慢慢走两小时足够。门票50元。</div>
                 </div>
             </div>
             <div class="sight-card">
-                <div class="sight-icon">🚣</div>
+                <div class="sight-icon"><svg class="ic"><use href="#i-mtn"/></svg></div>
                 <div>
-                    <div class="sight-name">绿林谷漂流</div>
-                    <div class="sight-tags"><span class="sight-tag">峡谷景区</span><span class="sight-tag">徒步</span><span class="sight-tag">🍁秋色</span></div>
-                    <div class="sight-desc">3.5公里原生态峡谷，🍁秋季红叶满山，溪流潺潺，是徒步和摄影的好去处。漂流项目5-8月开放，但秋季峡谷风光同样迷人。免费停车，人均50-80元（仅门票）。</div>
+                    <div class="sight-name">绿林谷</div>
+                    <div class="sight-tags"><span class="sight-tag">峡谷步道</span><span class="sight-tag">人少清静</span></div>
+                    <div class="sight-desc">3.5公里原生态峡谷，秋季红叶多，游人比桃岭少得多。漂流项目只在五到八月开放。停车免费，人均50-80元。</div>
                 </div>
             </div>
         </div>
 
         <!-- 实用贴士 -->
         <div id="guide-tips" class="guide-panel">
-            <div class="route-card" style="border-left-color:#00b894;">
-                <div class="route-title" style="margin-bottom:8px;">🚗 交通</div>
-                <div class="route-tip">• 自驾最佳，停车位充足<br>• 高铁：泾县站直达，合肥1.5h / 南京1.5h / 上海2.5-3h<br>• 自驾：南京2.5h / 杭州2.5h / 合肥2h / 上海3.5h<br>• 景区间距离较远，建议租车或自驾<br>• 皖南川藏线山路弯多，新手慎开，避免夜行</div>
+            <div class="route-card">
+                <div class="route-title" style="margin-bottom:8px;"><svg class="ic" style="color:#3f5a52;"><use href="#i-road"/></svg> 交通</div>
+                <div class="route-tip">• 高铁：泾县站直达，合肥约1.5小时，南京约1.5小时，上海2.5-3小时<br>• 自驾：合肥2小时，南京、杭州约2.5小时，上海3.5小时<br>• 景点之间距离远，公共交通不便，建议自驾或租车<br>• 皖南川藏线弯多路窄，新手谨慎，尽量不夜行</div>
             </div>
-            <div class="route-card" style="border-left-color:#fdcb6e;">
-                <div class="route-title" style="margin-bottom:8px;">🏨 住宿</div>
-                <div class="route-tip">• 桃花潭镇民宿120-500元/晚，推窗见景<br>• 查济古村明清老宅民宿，沉浸式体验<br>• 县城酒店200-500元/晚，交通便利<br>• 月亮湾/水墨汀溪沿线农家乐150-400元/晚<br>• 节假日提前1-2周预订</div>
+            <div class="route-card" style="border-left-color:#a06a1c;">
+                <div class="route-title" style="margin-bottom:8px;">最佳时节</div>
+                <div class="route-tip">• 春（3-5月）：桃花潭一带花期的尾巴，油菜花还在<br>• 夏（6-8月）：绿林谷、月亮湾玩水，汀溪避暑<br>• 秋（9-11月）：川藏线红叶转色，全年最好的季节<br>• 冬：游客少，古村清净，适合不赶时间的慢游</div>
             </div>
-            <div class="route-card" style="border-left-color:#e17055;">
-                <div class="route-title" style="margin-bottom:8px;">🍜 美食</div>
-                <div class="route-tip">• 茂林糊：泾县宴席头道菜，口感滑润<br>• 琴鱼蒸蛋：特产琴鱼烹制，鲜美独特<br>• 桃花潭清蒸白鱼：青弋江活水鱼，现捕现做<br>• 土灶锅巴饭：柴火烹饪，锅巴酥脆<br>• 🍂 秋季限定：板栗烧鸡、桂花糕、野生菌菇炖土鸡、泾县毛豆腐<br>• 汀溪兰香茶：泾县名茶，秋茶回甘更醇</div>
-            </div>
-            <div class="route-card" style="border-left-color:#a29bfe;">
-                <div class="route-title" style="margin-bottom:8px;">📅 最佳时节</div>
-                <div class="route-tip">• <strong>春（3-5月）</strong>：桃花潭百花盛开，油菜花海，最美<br>• <strong>夏（6-8月）</strong>：绿林谷漂流、月亮湾玩水、避暑<br>• <strong>🍁 秋（9-11月，当前推荐！）</strong>：皖南川藏线彩林绝景，红枫银杏层林尽染，摄影天堂<br>• 冬季人少清净，适合摄影爱好者</div>
+            <div class="route-card" style="border-left-color:#b0432f;">
+                <div class="route-title" style="margin-bottom:8px;"><svg class="ic" style="color:#b0432f;"><use href="#i-bowl"/></svg> 吃什么</div>
+                <div class="route-tip">• 茂林糊：当地宴席头道菜，口感滑润<br>• 琴鱼蒸蛋：琴鱼是青弋江特产，做汤蒸蛋都鲜<br>• 桃花潭清蒸白鱼：江边现捕，看季节<br>• 土灶锅巴饭：柴火烧出来的锅巴，孩子最喜欢<br>• 秋季还有板栗烧鸡、桂花糕，汀溪兰香茶秋天回甘更明显</div>
             </div>
         </div>
 
-        <!-- 平台攻略链接 -->
+        <!-- 更多平台 -->
         <div id="guide-platform" class="guide-panel">
-            <div style="font-size:13px;color:#666;margin-bottom:12px;">以下是各大平台的泾县旅游攻略，内容更丰富详细，点击跳转查看：</div>
+            <div style="font-size:12.5px;color:var(--ink-light);margin-bottom:11px;line-height:1.7;">各大平台也有不少泾县游记和攻略，点击前往：</div>
             <div class="platform-links">
-                <a class="platform-btn official" href="https://www.ahjx.gov.cn/News/showList/45493/page_1.html" onclick="openLink(this.href);return false;">🏛️ 泾县官方攻略</a>
-                <a class="platform-btn mafengwo" href="https://www.mafengwo.cn/travel-scenic-spot/mafengwo/23042.html" onclick="openLink(this.href);return false;">🦅 马蜂窝游记</a>
-                <a class="platform-btn ctrip" href="https://you.ctrip.com/place/jingcounty2616.html" onclick="openLink(this.href);return false;">✈️ 携程攻略</a>
-                <a class="platform-btn dianping" href="https://www.dianping.com/search/keyword/6391/0_%E6%B3%BE%E5%8E%BF" onclick="openLink(this.href);return false;">🍊 大众点评</a>
-                <a class="platform-btn douyin" href="https://www.douyin.com/search/%E6%B3%BE%E5%8E%BF%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A52026" onclick="openLink(this.href);return false;">🎵 抖音攻略</a>
-                <a class="platform-btn ahjxtrip" href="https://www.ahjxtrip.com/" onclick="openLink(this.href);return false;">🌿 云游泾县</a>
-                <a class="platform-btn toutiao" href="https://www.toutiao.com/search/?keyword=%E6%B3%BE%E5%8E%BF%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5" onclick="openLink(this.href);return false;">📰 今日头条</a>
+                <a class="platform-btn official" href="https://www.ahjx.gov.cn/News/showList/45493/page_1.html" onclick="openLink(this.href);return false;">泾县政府文旅版块</a>
+                <a class="platform-btn mafengwo" href="https://www.mafengwo.cn/travel-scenic-spot/mafengwo/23042.html" onclick="openLink(this.href);return false;">马蜂窝游记</a>
+                <a class="platform-btn ctrip" href="https://you.ctrip.com/place/jingcounty2616.html" onclick="openLink(this.href);return false;">携程攻略</a>
+                <a class="platform-btn dianping" href="https://www.dianping.com/search/keyword/6391/0_%E6%B3%BE%E5%8E%BF" onclick="openLink(this.href);return false;">大众点评</a>
+                <a class="platform-btn douyin" href="https://www.douyin.com/search/%E6%B3%BE%E5%8E%BF%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A52026" onclick="openLink(this.href);return false;">抖音</a>
+                <a class="platform-btn ahjxtrip" href="https://www.ahjxtrip.com/" onclick="openLink(this.href);return false;">云游泾县</a>
+                <a class="platform-btn toutiao" href="https://www.toutiao.com/search/?keyword=%E6%B3%BE%E5%8E%BF%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5" onclick="openLink(this.href);return false;">今日头条</a>
             </div>
-            <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-top:8px;font-size:12px;color:#555;line-height:1.8;">
-                <strong>📱 小红书 & 微信公众号攻略搜索建议：</strong><br>
-                🔍 小红书搜索「泾县秋游」「皖南川藏线秋色」「查济古村秋天」「桃花潭秋景」「落羽杉红叶」可找到大量2026秋季游记和摄影作品；<br>
-                🔍 微信公众号关注「泾县文化旅游」「泾县之窗」「泾县文旅投」获取每日活动推送和最新资讯。
+            <div class="search-tip">
+                想看真实游客的照片和踩坑记录，可以在小红书搜「泾县秋游」「皖南川藏线秋色」「查济古村」，或者微信关注「泾县文化旅游」「泾县之窗」「泾县文旅投」，有活动和新政策都会先在这几个号上发。
             </div>
-            <a class="guide-link-btn" href="https://www.xiaohongshu.com/search_result?keyword=%E6%B3%BE%E5%8E%BF%E7%A7%8B%E6%B8%B8&type=51" onclick="openLink(this.href);return false;">📕 小红书搜索「泾县秋游」攻略</a>
-            <a class="guide-link-btn" style="margin-top:8px;background:linear-gradient(135deg,#07c160,#06ad56);" href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0MDAyNzM3OA==&scene=124#wechat_redirect" onclick="openLink(this.href);return false;">💬 关注「泾县之窗」公众号</a>
+            <a class="guide-link-btn" href="https://www.xiaohongshu.com/search_result?keyword=%E6%B3%BE%E5%8E%BF%E7%A7%8B%E6%B8%B8&type=51" onclick="openLink(this.href);return false;">小红书搜「泾县秋游」</a>
+            <a class="guide-link-btn wechat" href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0MDAyNzM3OA==&scene=124#wechat_redirect" onclick="openLink(this.href);return false;">关注「泾县之窗」公众号</a>
+        </div>
+    </div>
+
+    <!-- 出行服务 -->
+    <div class="section-title"><svg class="ic"><use href="#i-ticket"/></svg><h2>出行服务</h2></div>
+    <div class="card">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this, 'tab-ticket')">景区门票</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-parking')">停车场</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-gas')">加油站</button>
+        </div>
+
+        <div id="tab-ticket" class="tab-content active">
+            <div class="ticket-grid">
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-wave"/></svg>
+                    <div class="ticket-name">桃花潭风景区</div>
+                    <div class="ticket-price">65<span> 元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-home"/></svg>
+                    <div class="ticket-name">查济古村</div>
+                    <div class="ticket-price">65<span> 元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-scroll"/></svg>
+                    <div class="ticket-name">宣纸文化园</div>
+                    <div class="ticket-price">45<span> 元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-tree"/></svg>
+                    <div class="ticket-name">水墨汀溪</div>
+                    <div class="ticket-price">60<span> 元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-moon"/></svg>
+                    <div class="ticket-name">月亮湾</div>
+                    <div class="ticket-price">免费</div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-road"/></svg>
+                    <div class="ticket-name">皖南川藏线</div>
+                    <div class="ticket-price">免费</div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-landmark"/></svg>
+                    <div class="ticket-name">黄田景区</div>
+                    <div class="ticket-price">50<span> 元/人</span></div>
+                </div>
+                <div class="ticket-item">
+                    <svg class="ic"><use href="#i-ship"/></svg>
+                    <div class="ticket-name">江南第一漂</div>
+                    <div class="ticket-price">80<span> 元/人</span></div>
+                </div>
+            </div>
+            <div class="ticket-tip">
+                <strong>优惠：</strong>60岁以上老人、军人、残疾人凭证免票，学生半价。部分景区早7点前、晚5点后不查票，但以景区当日规定为准。
+            </div>
+        </div>
+
+        <div id="tab-parking" class="tab-content">
+            <div class="parking-item">
+                <div>
+                    <div class="parking-name">桃花潭景区停车场</div>
+                    <div class="parking-addr">桃花潭镇景区入口旁</div>
+                </div>
+                <div class="parking-fee">5元/次</div>
+            </div>
+            <div class="parking-item">
+                <div>
+                    <div class="parking-name">查济古村停车场</div>
+                    <div class="parking-addr">蔡村镇查济村入口</div>
+                </div>
+                <div class="parking-fee">5元/次</div>
+            </div>
+            <div class="parking-item">
+                <div>
+                    <div class="parking-name">宣纸文化园停车场</div>
+                    <div class="parking-addr">榔桥镇宣纸文化园</div>
+                </div>
+                <div class="parking-fee">免费</div>
+            </div>
+            <div class="parking-item">
+                <div>
+                    <div class="parking-name">水墨汀溪停车场</div>
+                    <div class="parking-addr">蔡村镇汀溪景区</div>
+                </div>
+                <div class="parking-fee">10元/次</div>
+            </div>
+            <div class="parking-item">
+                <div>
+                    <div class="parking-name">月亮湾观景台停车</div>
+                    <div class="parking-addr">皖南川藏线沿线</div>
+                </div>
+                <div class="parking-fee">免费</div>
+            </div>
+        </div>
+
+        <div id="tab-gas" class="tab-content">
+            <div class="gas-item" onclick="openMap('泾县中石化加油站')">
+                <div class="gas-top">
+                    <div class="gas-name">中石化泾县加油站</div>
+                    <div class="gas-brand brand-sinopec">中石化</div>
+                </div>
+                <div class="gas-addr">泾县徽杭路（泾县收费站附近）</div>
+                <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
+            </div>
+            <div class="gas-item" onclick="openMap('泾县中石油加油站')">
+                <div class="gas-top">
+                    <div class="gas-name">中石油泾县加油站</div>
+                    <div class="gas-brand brand-petrochina">中石油</div>
+                </div>
+                <div class="gas-addr">泾县城关镇解放路</div>
+                <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
+            </div>
+            <div class="gas-item" onclick="openMap('桃花潭镇加油站')">
+                <div class="gas-top">
+                    <div class="gas-name">桃花潭镇加油站</div>
+                    <div class="gas-brand brand-other">社会站</div>
+                </div>
+                <div class="gas-addr">桃花潭镇主干道旁（游客集中区）</div>
+                <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
+            </div>
+            <div class="gas-item" onclick="openMap('宣广高速泾县服务区')">
+                <div class="gas-top">
+                    <div class="gas-name">宣广高速 · 泾县服务区</div>
+                    <div class="gas-brand brand-sinopec">中石化</div>
+                </div>
+                <div class="gas-addr">宣广高速泾县段服务区内</div>
+                <div class="gas-price">92# 8.40元/升 · 95# 8.98元/升（10-10调价）</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 红色泾县 -->
+    <div class="section-title"><svg class="ic"><use href="#i-star"/></svg><h2>红色泾县</h2><span class="update-badge">免费开放</span></div>
+    <div class="card">
+        <div class="red-item">
+            <div class="red-icon"><svg class="ic"><use href="#i-landmark"/></svg></div>
+            <div>
+                <div class="red-name">云岭新四军军部旧址<span class="red-tag">全国重点文保</span></div>
+                <div class="red-desc">1938至1941年新四军军部驻扎云岭，司令部、大会堂等旧址保存完整，馆内史料陈列详细。离县城约20公里，参观约需两小时。</div>
+            </div>
+        </div>
+        <div class="red-item">
+            <div class="red-icon"><svg class="ic"><use href="#i-star"/></svg></div>
+            <div>
+                <div class="red-name">皖南事变烈士陵园<span class="red-tag">爱国主义教育</span></div>
+                <div class="red-desc">为纪念皖南事变中殉难的新四军将士而建，在县城西郊，环境肃穆。可与云岭旧址安排在同一天。</div>
+            </div>
+        </div>
+        <div class="red-item">
+            <div class="red-icon"><svg class="ic"><use href="#i-home"/></svg></div>
+            <div>
+                <div class="red-name">王稼祥故居<span class="red-tag">红色故居</span></div>
+                <div class="red-desc">位于桃花潭镇厚岸村，皖南民居格局，陈列王稼祥生平史料。离桃花潭景区不远，可顺路参观。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 非遗 -->
+    <div class="section-title"><svg class="ic"><use href="#i-scroll"/></svg><h2>非遗在泾县</h2></div>
+    <div class="card">
+        <div class="heritage-item">
+            <div class="heritage-icon" style="background:#f8f1e0;color:#8a5a1e;"><svg class="ic"><use href="#i-scroll"/></svg></div>
+            <div>
+                <div class="heritage-name">宣纸制作技艺</div>
+                <span class="heritage-level level-world">人类非遗 · 2009年入选</span>
+                <div class="heritage-desc">宣纸产于泾县，始于唐代，原料是青檀皮和沙田稻草，前后一百多道工序，一张纸做出来要一年多。2009年列入联合国教科文组织人类非遗名录，是安徽省唯一独立申报的项目。</div>
+            </div>
+        </div>
+        <div class="heritage-item">
+            <div class="heritage-icon" style="background:#faf0ec;color:#b0432f;"><svg class="ic"><use href="#i-brush"/></svg></div>
+            <div>
+                <div class="heritage-name">宣笔制作技艺</div>
+                <span class="heritage-level level-national">国家级非遗</span>
+                <div class="heritage-desc">宣笔历史可以追到秦代，和宣纸并称"文房双绝"。用山兔毫、山羊毛等天然材料，工序繁复，中国四大名笔之一。</div>
+            </div>
+        </div>
+        <div class="heritage-item">
+            <div class="heritage-icon" style="background:#edf2ef;color:#3f5a52;"><svg class="ic"><use href="#i-scissors"/></svg></div>
+            <div>
+                <div class="heritage-name">后山剪刀制作技艺</div>
+                <span class="heritage-level level-provincial">省级非遗</span>
+                <div class="heritage-desc">手工锻打，刃口锋利、经久耐用，2014年入选省级非遗名录。黄村老街上还能见到老铺子。</div>
+            </div>
+        </div>
+        <div class="heritage-item">
+            <div class="heritage-icon" style="background:#f8f4e9;color:#4a6a5f;"><svg class="ic"><use href="#i-blind"/></svg></div>
+            <div>
+                <div class="heritage-name">宣纸帘制作技艺</div>
+                <span class="heritage-level level-provincial">省级非遗</span>
+                <div class="heritage-desc">捞纸用的竹帘，用本地苦竹丝手工编成，一张帘子要做上好几天。没有帘子就捞不出纸，是宣纸产业里不起眼但少不了的一环。</div>
+            </div>
+        </div>
+        <div class="heritage-item">
+            <div class="heritage-icon" style="background:#faf0ec;color:#a06a1c;"><svg class="ic"><use href="#i-lantern"/></svg></div>
+            <div>
+                <div class="heritage-name">茂林抬阁</div>
+                <span class="heritage-level level-provincial">省级非遗</span>
+                <div class="heritage-desc">茂林镇的传统民俗，逢重大节庆出演，小演员扮成戏曲人物固定在高架上游街，远远看去像人在半空行走。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 住宿 -->
+    <div class="section-title"><svg class="ic"><use href="#i-bed"/></svg><h2>住进泾县</h2></div>
+    <div class="card">
+        <div class="stay-item">
+            <div class="stay-icon"><svg class="ic"><use href="#i-home"/></svg></div>
+            <div>
+                <div class="stay-name">查济古村民宿</div>
+                <div class="stay-price">约120-400元/晚</div>
+                <div class="stay-desc">多是明清老宅改的院子，住在这里早晚拍古村最方便。节假日建议提前一两周订。</div>
+            </div>
+        </div>
+        <div class="stay-item">
+            <div class="stay-icon"><svg class="ic"><use href="#i-wave"/></svg></div>
+            <div>
+                <div class="stay-name">桃花潭镇临潭民宿</div>
+                <div class="stay-price">约150-500元/晚</div>
+                <div class="stay-desc">部分房间正对潭面，早上拉开窗帘就能看晨雾。旺季周末价格会上浮，先问清是否含早。</div>
+            </div>
+        </div>
+        <div class="stay-item">
+            <div class="stay-icon"><svg class="ic"><use href="#i-tree"/></svg></div>
+            <div>
+                <div class="stay-name">水墨汀溪、月亮湾沿线山居</div>
+                <div class="stay-price">约150-400元/晚</div>
+                <div class="stay-desc">农家乐兼民宿，靠山面竹，夏天凉快。山区夜里温度低，秋冬入住先确认有没有空调或地暖。</div>
+            </div>
         </div>
     </div>
 
     <!-- 底部 -->
     <div class="footer">
-        <p>📅 数据更新：2026年9月22日</p>
-        <p>⚠️ 门票及油价仅供参考，以实际为准</p>
-        <p style="margin-top:6px;">数据来源：中国气象局 · 泾县文化和旅游局</p>
+        <div class="seal-mark">泾</div>
+        <p class="proj-note">本页为「泾县文旅信息聚合二维码」线上入口，内容不定期更新。<br>海报、展板、手册上的二维码长期有效，扫码即见最新版。</p>
+        <p>📅 数据更新：2026年10月10日</p>
+        <p>门票及油价仅供参考，以景区当日实际为准</p>
+        <p>数据来源：泾县文化和旅游局 · 中国气象局</p>
     </div>
 
-    <script>
-        function switchGuide(btn, panelId) {
-            document.querySelectorAll('.guide-tab').forEach(function(b){ b.classList.remove('active'); });
-            document.querySelectorAll('.guide-panel').forEach(function(p){ p.classList.remove('active'); });
-            btn.classList.add('active');
-            document.getElementById(panelId).classList.add('active');
+</div>
+
+<script>
+    function switchGuide(btn, panelId) {
+        document.querySelectorAll('.guide-tab').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.guide-panel').forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById(panelId).classList.add('active');
+    }
+    function switchTab(btn, tabId) {
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+    function openLink(url) {
+        window.location.href = url;
+    }
+    function openMap(keyword) {
+        var ua = navigator.userAgent;
+        if (/MicroMessenger/i.test(ua)) {
+            window.location.href = 'https://map.qq.com/m?key=' + encodeURIComponent(keyword);
+        } else {
+            window.open('https://map.baidu.com/search/' + encodeURIComponent(keyword));
         }
-        function switchTab(btn, tabId) {
-            // 切换标签
-            document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-            document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
-            btn.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        }
-        function openLink(url) {
-            window.location.href = url;
-        }
-        function openMap(keyword) {
-            // 尝试打开地图导航
-            var ua = navigator.userAgent;
-            if (/MicroMessenger/i.test(ua)) {
-                // 微信内打开腾讯地图
-                window.location.href = 'https://map.qq.com/m?key=' + encodeURIComponent(keyword);
-            } else {
-                window.open('https://map.baidu.com/search/' + encodeURIComponent(keyword));
-            }
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
